@@ -24,16 +24,28 @@ The filename is the id used in URLs: `/projects/<id>/` and `/writing/<id>/`.
 The build fails with a clear message if a file doesn't match the schema in
 `src/content.config.ts`.
 
-**Projects.** `sample-project-a.yaml` uses every optional section; leave a field
-out and its section is not rendered. `featured: true` puts a project on the
-homepage (up to three). Visual kinds: `chip`, `terminal`, `steps`, `image`
-(image paths are relative to `public/`); omit `visual` for a monogram.
-`result: { text, footnote }` shows a key result on the card and project hero.
+**Projects.** `sample-project.yaml` is the template: a plain page with a
+high-level description and links to the codebase, the deployment and a demo
+video. `featured: true` puts a project on the homepage (up to three).
+
+`categories` is a list of one or more ML stack layers, defined in
+`src/content.config.ts` and listed there bottom to top: `Foundation`,
+`Models`, `Post-training`, `Inference`, `On-device`, `Platform`, `Evaluation`,
+`Agents & Apps` — e.g. `categories: [Inference, On-device]`. The Projects page
+shows a tab only for layers some published project uses, in that order; a
+project appears under every layer it lists.
+
+`links: { source, demo, video }` are all optional web links — codebase,
+deployment/live demo, and a demo video.
+
+`publish: Draft` (the default) keeps a project off the live site; set it to
+`publish: Publish` to show it. Set `SHOW_DRAFTS = true` in `src/data/site.ts`
+to preview drafts locally, marked with a badge.
 
 **Resume and photo.** Put the files in `public/` and set `owner.resume` /
 `owner.photo` in `src/data/site.ts` to their names (e.g. `resume.pdf`).
 
-**Drafts.** `draft: true` on a project or post hides it from the build. Set
+**Drafts (posts).** `draft: true` on a post hides it from the build. Set
 `SHOW_DRAFTS = true` in `src/data/site.ts` to preview drafts, marked with a badge.
 
 **Posts.** Write the body in Markdown. `>` renders as a pull quote and `[^1]`

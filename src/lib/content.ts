@@ -21,17 +21,15 @@ export const hasBody = (w: Post) => Boolean(w.body && w.body.trim());
 /** Posts with a body are published on this site; the rest link out. */
 export const postHref = (w: Post) => (hasBody(w) ? url(`writing/${w.id}/`) : w.data.url!);
 
-const isVisible = (x: Project | Post) => SHOW_DRAFTS || !x.data.draft;
-
-/** Projects, newest year first. */
+/** Projects, newest year first. Only `publish: Publish` shows, unless SHOW_DRAFTS is on. */
 export async function getProjects(): Promise<Project[]> {
-  const all = await getCollection('projects', isVisible);
+  const all = await getCollection('projects', p => SHOW_DRAFTS || p.data.publish === 'Publish');
   return all.sort((a, b) => b.data.year - a.data.year);
 }
 
 /** Posts, newest first. */
 export async function getPosts(): Promise<Post[]> {
-  const all = await getCollection('posts', isVisible);
+  const all = await getCollection('posts', w => SHOW_DRAFTS || !w.data.draft);
   for (const w of all) {
     if (!hasBody(w) && !w.data.url) {
       throw new Error(`Post "${w.id}" has no body and no url. Add content or set \`url\` to link out.`);

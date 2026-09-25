@@ -5,8 +5,22 @@ import { z } from 'astro/zod';
 /* Links rendered into pages must be web links: this rejects `javascript:`,
    `data:` and other schemes that could run code when clicked. */
 const webUrl = z.url({ protocol: /^https?$/ });
-/** A site-relative path (e.g. /images/shot.png) or a web link. */
-const src = z.string().refine(s => !/^[a-z][a-z\d+.-]*:/i.test(s) || /^https?:/i.test(s), 'Use a site path or an http(s) URL');
+
+/* The ML stack, bottom to top: math/research fundamentals, through building and
+   tuning models, serving them, deploying to constrained hardware, the platform
+   tooling that glues it together, evaluating it, up to the agents and apps
+   users actually touch. Order here drives the category filter's order on the
+   Projects page. */
+export const CATEGORIES = [
+  'Foundation',
+  'Models',
+  'Post-training',
+  'Inference',
+  'On-device',
+  'Platform',
+  'Evaluation',
+  'Agents & Apps'
+] as const;
 
 const chart = z.object({
   x: z.array(z.string()),
@@ -30,50 +44,20 @@ export const figure = z.object({
   chart
 });
 
-const visual = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('chip'), blocks: z.array(z.object({ label: z.string(), accent: z.boolean().optional() })).min(1) }),
-  z.object({ kind: z.literal('terminal'), title: z.string().optional(), lines: z.array(z.object({ label: z.string(), text: z.string(), tone: z.enum(['q', 'run', 'err', 'ok']).optional() })) }),
-  z.object({ kind: z.literal('steps'), steps: z.array(z.object({ title: z.string(), sub: z.string() })) }),
-  z.object({ kind: z.literal('image'), src, alt: z.string().optional() })
-]);
-
 /* One YAML file per project in src/content/projects. The filename is the id
-   used in URLs (/projects/<id>/). Every section except the hero is optional. */
+   used in URLs (/projects/<id>/). A plain template: a description and links. */
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
   schema: z.object({
     name: z.string(),
-    category: z.string(),
+    categories: z.array(z.enum(CATEGORIES)).min(1), // one or more ML stack layers
     year: z.number().int(),
     status: z.string(), // 'Live', 'In progress', 'Complete', 'Archived'
     featured: z.boolean().default(false),
-    draft: z.boolean().default(false), // hidden unless SHOW_DRAFTS is on
+    publish: z.enum(['Draft', 'Publish']).default('Draft'), // only 'Publish' shows on the site (unless SHOW_DRAFTS is on)
     tagline: z.string(),
     summary: z.string().optional(),
-    result: z.object({ text: z.string(), footnote: z.string().optional() }).optional(), // headline outcome on cards and the hero
-    facts: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
-    links: z.object({ source: webUrl.optional(), demo: webUrl.optional() }).optional(),
-    visual: visual.optional(), // omit for a monogram
-    overview: z.string().optional(),
-    challenge: z.string().optional(),
-    approach: z.string().optional(),
-    architecture: z.object({
-      heading: z.string().optional(),
-      sub: z.string().optional(),
-      loop: z.string().optional(),
-      output: z.string().optional(),
-      stages: z.array(z.object({
-        title: z.string(),
-        sub: z.string().optional(),
-        side: z.object({ title: z.string(), sub: z.string().optional() }).optional(),
-        heading: z.string().optional(),
-        body: z.string().optional()
-      })).min(1)
-    }).optional(),
-    metricsTitle: z.string().optional(),
-    metrics: z.array(z.object({ value: z.string(), label: z.string(), footnote: z.string().optional() })).optional(),
-    decisions: z.array(z.object({ title: z.string(), body: z.string() })).optional(),
-    source: z.object({ clone: z.string(), tree: z.array(z.string()).optional(), note: z.string().optional() }).optional()
+    links: z.object({ source: webUrl.optional(), demo: webUrl.optional(), video: webUrl.optional() }).optional()
   })
 });
 

@@ -36,7 +36,8 @@ darkQuery.addEventListener('change', syncThemeUI);
 /* ---------- Filters (Projects by category, Blog by type) ---------- */
 function applyFilter(kind: string, value: string) {
   document.querySelectorAll<HTMLElement>(`[data-filter="${kind}"]`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === value)));
-  const match = (el: HTMLElement) => value === 'All' || el.dataset[kind] === value;
+  // A project lists its categories as "A|B"; it matches if any of them is selected.
+  const match = (el: HTMLElement) => value === 'All' || (el.dataset[kind] ?? '').split('|').includes(value);
   const count = document.getElementById('count')!;
   if (kind === 'cat') {
     let n = 0;
@@ -72,19 +73,6 @@ function mountDecode() {
     setTimeout(step, 50 + Math.random() * 90);
   };
   setTimeout(step, 300);
-}
-
-/* ---------- Project page: pipeline follows the scrolled step ---------- */
-function mountScrolly() {
-  const pipe = document.getElementById('pipe'), steps = Array.from(document.querySelectorAll<HTMLElement>('.step'));
-  if (!pipe || !steps.length) return;
-  const activate = (k: number) => {
-    steps.forEach(s => s.classList.toggle('is-active', Number(s.dataset.step) === k));
-    pipe.querySelectorAll<SVGElement>('[data-i]').forEach(el => el.classList.toggle('on', Number(el.dataset.i) === k));
-  };
-  activate(0);
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) activate(Number((e.target as HTMLElement).dataset.step)); }), { rootMargin: '-45% 0px -45% 0px' });
-  steps.forEach(s => io.observe(s));
 }
 
 /* ---------- Charts draw in when scrolled into view ---------- */
@@ -125,5 +113,4 @@ document.querySelectorAll<HTMLAnchorElement>('a[data-mail]').forEach(a => { a.hr
 
 syncThemeUI();
 mountDecode();
-mountScrolly();
 mountDraw();

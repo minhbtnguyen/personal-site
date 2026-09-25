@@ -6,7 +6,7 @@
 
 export interface Link { label: string; url: string }
 
-export const SHOW_DRAFTS = false; // set to true locally to preview entries marked `draft: true`
+export const SHOW_DRAFTS = false; // set to true locally to preview posts marked `draft: true` and projects marked `publish: Draft`
 export const FILTER_MIN = 5;      // filters appear only when a page has at least this many entries
 export const XP_VISIBLE = 5;      // experience rows shown before the "Show all" button
 

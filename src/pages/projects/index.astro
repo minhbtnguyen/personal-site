@@ -3,17 +3,20 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import Segmented from '../../components/Segmented.astro';
-import { FILTER_MIN, SITE } from '../../data/site';
+import { SITE } from '../../data/site';
+import { CATEGORIES } from '../../content.config';
 import { getProjects } from '../../lib/content';
 
 const projects = await getProjects();
-const cats = [...new Set(projects.map(p => p.data.category))];
+// A tab per layer that at least one project uses, in ML-stack order.
+const used = new Set(projects.flatMap(p => p.data.categories));
+const cats = CATEGORIES.filter(c => used.has(c));
 ---
 <Base title="Projects" description={SITE.projectsPage.intro} active="projects">
 <main>
   <PageHero title={SITE.projectsPage.title} intro={SITE.projectsPage.intro} />
   <div class="toolbar">
-    {cats.length > 1 && projects.length >= FILTER_MIN ? <Segmented name="cat" values={cats} label="Filter projects by category" /> : <span></span>}
+    {cats.length > 0 ? <Segmented name="cat" values={cats} label="Filter projects by category" /> : <span></span>}
     <span class="count" id="count" aria-live="polite">{projects.length} projects</span>
   </div>
   <section class="pgrid" id="pgrid" aria-label="All projects">
