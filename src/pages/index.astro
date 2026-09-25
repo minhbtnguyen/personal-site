@@ -45,7 +45,7 @@ const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o
     <div class="cta-row">
       <a class="pill" href={url('projects/')}>View projects</a>
       {resume && <a class="pill pill-alt" href={resume} {...extAttrs(resume)}><Fragment set:html={DL} /> Resume</a>}
-      <More href={url('blog/')} label="Read the blog" />
+      <More href={url('writing/')} label="Read the blog" />
     </div>
   </section>
 
@@ -58,7 +58,7 @@ const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o
 
   {posts.length > 0 && (
     <section class="section alt" id="writing" aria-labelledby="w-title"><div class="container">
-      <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2><More href={url('blog/')} label="All posts" /></div>
+      <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2><More href={url('writing/')} label="All posts" /></div>
       <div class="cards">{posts.slice(0, 3).map(w => <PostCard post={w} />)}</div>
     </div></section>
   )}

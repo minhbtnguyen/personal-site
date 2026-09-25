@@ -78,7 +78,7 @@ const projects = defineCollection({
 });
 
 /* One MDX file per post in src/content/posts. A post with a body is published
-   at /blog/<id>/. A post with no body must set `url` and links out instead. */
+   at /writing/<id>/. A post with no body must set `url` and links out instead. */
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
   schema: z.object({

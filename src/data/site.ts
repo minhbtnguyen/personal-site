@@ -23,7 +23,7 @@ export const SITE = {
        every Resume link. An http(s) URL also works. */
     resume: '',
     /* e.g. 'headshot.jpg' in public/. Empty shows an initials monogram. */
-    photo: '',
+    photo: 'photo.jpeg',
     links: [
       { label: 'GitHub', url: 'https://github.com/minhbtnguyen' },
       { label: 'Google Scholar', url: 'https://scholar.google.com/citations?user=9Pg_ZTgAAAAJ&hl=en' },

@@ -443,11 +443,14 @@ sup a{text-decoration:none}
 .dl{width:14px;height:14px}
 @media (max-width:560px){.gnav ul{gap:14px}}
 /* photo / monogram */
-.about-grid{display:grid;grid-template-columns:128px 1fr;gap:clamp(24px,4vw,48px);align-items:start}
-.about-photo{width:128px;height:128px;border-radius:50%;object-fit:cover;display:block}
-.about-photo.mono{display:grid;place-items:center;background:var(--panel);border:1px solid var(--hair);color:var(--text-2);font-size:40px;font-weight:600;letter-spacing:-.02em}
+/* The photo column is capped at the source photo's size (460px, square), so it
+   is never enlarged into blur and is shown uncropped. Replace public/photo.jpeg
+   with a larger square version to sharpen it on high-density screens. */
+.about-grid{display:grid;grid-template-columns:minmax(0,460px) minmax(280px,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.about-photo{width:100%;max-width:460px;aspect-ratio:1;border-radius:18px;object-fit:cover;display:block}
+.about-photo.mono{display:grid;place-items:center;background:var(--panel);border:1px solid var(--hair);color:var(--text-2);font-size:56px;font-weight:600;letter-spacing:-.02em}
 img.avatar{object-fit:cover}
-@media (max-width:640px){.about-grid{grid-template-columns:1fr}.about-photo{width:96px;height:96px}.about-photo.mono{font-size:30px}}
+@media (max-width:640px){.about-grid{grid-template-columns:1fr}.about-photo.mono{font-size:40px}}
 /* 3. Key result */
 .p-result{display:inline-flex;flex-direction:column;align-items:center;gap:6px;margin:0 auto 32px;padding:16px 26px;border:1px solid var(--hair);border-radius:18px;max-width:min(640px,100%)}
 .p-result strong{font-size:clamp(18px,2vw,23px);font-weight:600;letter-spacing:-.015em;line-height:1.3}

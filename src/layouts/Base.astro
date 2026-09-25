@@ -9,7 +9,7 @@ import { themeInit } from '../lib/theme-init.mjs';
 interface Props {
   title?: string;
   description?: string;
-  active?: 'home' | 'projects' | 'blog';
+  active?: 'home' | 'projects' | 'writing';
   stickyNav?: boolean;
   notes?: string[];
 }
@@ -39,7 +39,7 @@ const resume = o.resume && asset(o.resume);
   <a class="wordmark" href={url()}>{o.name}</a>
   <ul>
     <li><a href={url('projects/')} aria-current={cur('projects')}>Projects</a></li>
-    <li><a href={url('blog/')} aria-current={cur('blog')}>Blog</a></li>
+    <li><a href={url('writing/')} aria-current={cur('writing')}>Writing</a></li>
     <li class="hide-sm"><a href={url('#about')}>About</a></li>
     {resume && <li><a href={resume} {...extAttrs(resume)}>Resume</a></li>}
     <li class="hide-sm"><a href={url('#contact')}>Contact</a></li>

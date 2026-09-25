@@ -6,7 +6,7 @@ export type Post = CollectionEntry<'posts'>;
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-/** Prefix a site-relative path with the deploy base, e.g. url('blog/') -> '/personal-site/blog/'. */
+/** Prefix a site-relative path with the deploy base, e.g. url('writing/') -> '/personal-site/writing/'. */
 export const url = (path = '') => `${BASE}/${path.replace(/^\//, '')}`;
 
 export const isExternal = (href: string) => /^https?:/.test(href);
@@ -19,7 +19,7 @@ export const projectUrl = (id: string) => url(`projects/${id}/`);
 export const hasBody = (w: Post) => Boolean(w.body && w.body.trim());
 
 /** Posts with a body are published on this site; the rest link out. */
-export const postHref = (w: Post) => (hasBody(w) ? url(`blog/${w.id}/`) : w.data.url!);
+export const postHref = (w: Post) => (hasBody(w) ? url(`writing/${w.id}/`) : w.data.url!);
 
 const isVisible = (x: Project | Post) => SHOW_DRAFTS || !x.data.draft;
 

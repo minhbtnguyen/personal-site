@@ -20,7 +20,7 @@ npm run preview  # serve dist/
 | Projects | `src/content/projects/<id>.yaml` (one file per project) |
 | Posts | `src/content/posts/<id>.mdx` (one file per post) |
 
-The filename is the id used in URLs: `/projects/<id>/` and `/blog/<id>/`.
+The filename is the id used in URLs: `/projects/<id>/` and `/writing/<id>/`.
 The build fails with a clear message if a file doesn't match the schema in
 `src/content.config.ts`.
 

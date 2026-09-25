@@ -35,10 +35,10 @@ const { Content } = await render(post);
 const notes = new Footnotes();
 const figure = w.figure && figureHTML(w.figure, notes);
 ---
-<Base title={w.title} description={w.dek} active="blog" notes={notes.list}>
+<Base title={w.title} description={w.dek} active="writing" notes={notes.list}>
 <main>
   <header class="a-head">
-    <a class="crumb" href={url('blog/')}><Fragment set:html={CHEV} /> All posts</a>
+    <a class="crumb" href={url('writing/')}><Fragment set:html={CHEV} /> All posts</a>
     <p class="a-kind"><span>{w.type}</span><time datetime={w.date}>{fmtLong(w.date)}</time></p>
     <h1>{w.title}</h1>{w.dek && <p class="a-dek">{w.dek}</p>}
     <div class="byline">
@@ -57,8 +57,8 @@ const figure = w.figure && figureHTML(w.figure, notes);
   ) : <div style="height:96px"></div>}
   {(newer || older) && (
     <nav class="pn" aria-label="More posts">
-      {newer ? <a href={url(`blog/${newer.id}/`)}><small>Newer post</small><strong>{newer.data.title}</strong></a> : <span></span>}
-      {older && <a class="nx" href={url(`blog/${older.id}/`)}><small>Older post</small><strong>{older.data.title}</strong></a>}
+      {newer ? <a href={url(`writing/${newer.id}/`)}><small>Newer post</small><strong>{newer.data.title}</strong></a> : <span></span>}
+      {older && <a class="nx" href={url(`writing/${older.id}/`)}><small>Older post</small><strong>{older.data.title}</strong></a>}
     </nav>
   )}
 </main>
