@@ -1,15 +1,16 @@
 ---
-/* GitHub Pages serves this for any missing path under the site. */
+/* GitHub Pages serves this for any missing path under the site. Styled like
+   the home hero: a dark section filling the space between nav and footer. */
 import Base from '../layouts/Base.astro';
 import More from '../components/More.astro';
 import { url } from '../lib/content';
 ---
 <Base title="Page not found" description="This page doesn't exist.">
-<main>
-  <section class="nf">
-    <p class="kicker">404</p>
-    <h1 class="h-xl">Page not found.</h1>
-    <p class="nf-sub">The link may be old, or the page has moved.</p>
+<main class="nf-main">
+  <section class="nf ink" aria-labelledby="nf-title">
+    <p class="hero-open rise">404</p>
+    <h1 class="hero-title rise d1" id="nf-title">Page not found.</h1>
+    <p class="nf-sub rise d1">The link may be old, or the page has moved.</p>
     <div class="cta-row">
       <a class="pill" href={url()}>Go home</a>
       <More href={url('projects/')} label="Projects" />

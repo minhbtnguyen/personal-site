@@ -195,9 +195,10 @@ main > section + section,.foot{border-top:1px solid var(--sep)}
 .count{font-size:14px;color:var(--text-2)}
 .empty{grid-column:1 / -1;text-align:center;color:var(--text-2);padding:48px 0;margin:0}
 
-/* 404 */
-.nf{text-align:center;padding:clamp(96px,14vw,160px) 22px}
-.nf-sub{font-size:clamp(19px,2vw,24px);color:var(--text-2);margin:0 0 32px}
+/* 404: a dark hero that fills the space between nav and footer */
+.nf-main{display:flex;flex-direction:column}
+.nf{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(72px,11vw,128px) 22px}
+.nf-sub{max-width:26em;margin:0 auto 36px;font-size:clamp(20px,2.4vw,26px);line-height:1.36;font-weight:500;letter-spacing:-.01em;color:var(--text-2)}
 
 /* Filter bar; the edge with more tabs to scroll to fades (class set in site.ts) */
 .seg{display:inline-flex;gap:2px;padding:4px;border-radius:980px;background:var(--tile);max-width:100%;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
@@ -410,7 +411,8 @@ sup a,.data-footnote-backref{display:inline-block;padding:14px 10px;margin:-14px
 
   /* Hero: headline first; the name is already in the nav bar */
   .hero{display:flex;flex-direction:column;align-items:center}
-  .hero-title{order:-1;margin-bottom:18px}
+  .hero .hero-title{order:-1}
+  .hero-title{margin-bottom:18px}
   .hero-id b{display:none}
   .hero-id b + *::before{content:none} /* no leading "·" once the name is hidden */
   .hero-id{font-size:15px;margin-bottom:4px}

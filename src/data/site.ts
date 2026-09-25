@@ -19,7 +19,7 @@ export const SITE = {
     role: 'Engineering',
     company: 'BlackRock',
     location: 'Philadelphia, PA',
-    openTo: 'Open to Bay Area, Seattle and New York', // optional; set to '' to hide
+    openTo: 'Open to Bay Area, Seattle, Redmond, New York, and Boston', // optional; set to '' to hide
     /* Put the file in public/ and give its name, e.g. 'resume.pdf'. Empty hides
        every Resume link. An http(s) URL also works. */
     resume: '',
