@@ -45,7 +45,7 @@ const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o
     <div class="cta-row">
       <a class="pill" href={url('projects/')}>View projects</a>
       {resume && <a class="pill pill-alt" href={resume} {...extAttrs(resume)}><Fragment set:html={DL} /> Resume</a>}
-      <More href={url('writing/')} label="Read the blog" />
+      <More href={url('writing/')} label="Read my writing" />
     </div>
   </section>
 

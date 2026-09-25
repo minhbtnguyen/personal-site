@@ -442,12 +442,11 @@ sup a{text-decoration:none}
 .pill-alt:hover{background:color-mix(in srgb,var(--text) 8%,transparent)}
 .dl{width:14px;height:14px}
 @media (max-width:560px){.gnav ul{gap:14px}}
-/* photo / monogram */
-/* The photo column is capped at the source photo's size (460px, square), so it
-   is never enlarged into blur and is shown uncropped. Replace public/photo.jpeg
-   with a larger square version to sharpen it on high-density screens. */
-.about-grid{display:grid;grid-template-columns:minmax(0,460px) minmax(280px,1fr);gap:clamp(24px,4vw,56px);align-items:start}
-.about-photo{width:100%;max-width:460px;aspect-ratio:1;border-radius:18px;object-fit:cover;display:block}
+/* photo / monogram
+   The About photo supports the statement at a size below the source's 460px,
+   so it stays sharp and never outweighs the work above it. */
+.about-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(280px,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.about-photo{width:100%;max-width:300px;aspect-ratio:1;border-radius:18px;object-fit:cover;display:block}
 .about-photo.mono{display:grid;place-items:center;background:var(--panel);border:1px solid var(--hair);color:var(--text-2);font-size:56px;font-weight:600;letter-spacing:-.015em}
 img.avatar{object-fit:cover}
 @media (max-width:640px){.about-grid{grid-template-columns:1fr}.about-photo.mono{font-size:40px}}

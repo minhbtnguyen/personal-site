@@ -30,6 +30,9 @@ const resume = o.resume && asset(o.resume);
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="tdm-reservation" content="1">
 <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)}>
+<link rel="icon" type="image/png" sizes="32x32" href={url('favicon-32.png')}>
+<link rel="icon" type="image/png" sizes="64x64" href={url('favicon.png')}>
+<link rel="apple-touch-icon" href={url('apple-touch-icon.png')}>
 <Font cssVariable="--font-inter" />
 <Font cssVariable="--font-jetbrains" />
 <script is:inline set:html={themeInit} />
