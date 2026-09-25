@@ -15,7 +15,7 @@ name: Sample Project
 categories: [Inference, On-device]
 year: 2026
 status: In progress
-publish: Publish
+publish: Draft
 tagline: A one-line statement of what the project does and why it matters.
 summary: Two or three sentences describing the problem, the approach and the outcome.
 links:
