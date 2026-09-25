@@ -76,12 +76,12 @@ export const SITE = {
   /* Grouped list in the About section, beside Experience. Empty the list to hide it. */
   skillsTitle: 'Skills',
   skills: [
-    { group: 'Agentic AI', items: ['LLMs', 'LangChain', 'LangGraph', 'RAG', 'Embeddings', 'Vector Databases', 'Multi-Agent Orchestration'] },
-    { group: 'AI Tooling', items: ['Claude Code', 'GitHub Copilot', 'Codex', 'Cursor', 'Graphify', 'Obsidian', 'Prompt Engineering'] },
-    { group: 'AI / ML', items: ['TensorFlow', 'PyTorch', 'scikit-learn', 'MLflow', 'SHAP', 'Transfer Learning', 'Time Series Forecasting'] },
-    { group: 'Backend', items: ['Python', 'SQL', 'Go', 'Java', 'FastAPI', 'Flask', 'Celery', 'Dash', 'Streamlit', 'Pandas', 'RESTful APIs', 'Git'] },
-    { group: 'Data', items: ['Snowflake', 'Airflow', 'MySQL', 'PostgreSQL', 'MSSQL', 'Redis', 'InfluxDB', 'Tableau', 'Power BI'] },
-    { group: 'Cloud & DevOps', items: ['Azure', 'AWS', 'GCP', 'RockAI', 'Docker', 'Kubernetes', 'CI/CD', 'Jenkins', 'Azure DevOps', 'Grafana'] }
+    { group: 'AI / ML', items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transfer Learning', 'Time Series Forecasting', 'MLflow', 'SHAP'] },
+    { group: 'Agentic AI', items: ['LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangGraph', 'LangChain', 'Embeddings', 'Vector Databases'] },
+    { group: 'Backend', items: ['Python', 'Go', 'Java', 'SQL', 'FastAPI', 'RESTful APIs', 'Celery', 'Flask', 'Pandas', 'Git', 'Streamlit', 'Dash'] },
+    { group: 'Cloud & DevOps', items: ['AWS', 'GCP', 'Azure', 'Kubernetes', 'Docker', 'CI/CD', 'Grafana', 'Jenkins', 'Azure DevOps', 'RockAI'] },
+    { group: 'Data', items: ['Snowflake', 'Airflow', 'PostgreSQL', 'Redis', 'MySQL', 'MSSQL', 'InfluxDB', 'Tableau', 'Power BI'] },
+    { group: 'AI Tooling', items: ['Claude Code', 'Cursor', 'GitHub Copilot', 'Codex', 'Prompt Engineering', 'Graphify', 'Obsidian'] }
   ],
 
   contact: {
