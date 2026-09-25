@@ -14,6 +14,9 @@ export default defineConfig({
   base: '/personal-site',
   trailingSlash: 'always',
   integrations: [mdx()],
+  // Fetch internal pages as their links scroll into view, so taps open them
+  // instantly. Pages are small; Astro skips this on data-saver/slow connections.
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   markdown: { shikiConfig: { theme: templateCode } },
 
   // Downloaded from Google at build time and served from this site, so pages

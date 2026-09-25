@@ -43,10 +43,11 @@ export class Footnotes {
   }
 }
 
-/** Plain initials monogram, used as the project card/hero visual. */
-export function monogram(name: string): string {
-  return `<div class="mono-card" aria-hidden="true">${esc(name.split(/\s+/).map(w => w[0]).join('').slice(-1))}</div>`;
-}
+/** Default project visual: a stack of layers (the ML stack), top layer lit.
+    Colors come from CSS (.glyph) so it follows the card's theme. */
+const layer = (y: number, on = false) =>
+  `<g${on ? ' class="on"' : ''}><path class="side" d="M40 ${y}L100 ${y + 28}L160 ${y}v8L100 ${y + 36}L40 ${y + 8}z"/><path class="face" d="M100 ${y - 28}L160 ${y}L100 ${y + 28}L40 ${y}z"/></g>`;
+export const PROJECT_GLYPH = `<svg class="glyph" viewBox="0 0 200 160" aria-hidden="true">${layer(112)}${layer(80)}${layer(48, true)}</svg>`;
 
 /* ---------- Line chart ---------- */
 export function chartSVG(c: Chart, mini = false) {

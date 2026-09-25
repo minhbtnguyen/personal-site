@@ -4,7 +4,7 @@ import Avatar from '../components/Avatar.astro';
 import More from '../components/More.astro';
 import WritingCard from '../components/WritingCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { SITE, XP_VISIBLE } from '../data/site';
+import { SITE, SKILLS_VISIBLE_PHONE, XP_VISIBLE, XP_VISIBLE_PHONE } from '../data/site';
 import { asset, getProjects, getWritings, url } from '../lib/content';
 import { extAttrs, mailAttrs, tokenize } from '../lib/render';
 
@@ -31,9 +31,15 @@ const period = (x: typeof experience[number]) => {
   if (a.y === b.y) return a.m && b.m ? `${a.m} – ${b.m} ${a.y}` : a.y;
   return `${a.m ? a.m + ' ' : ''}${a.y} – ${b.m ? b.m + ' ' : ''}${b.y}`;
 };
-const hidden = Math.max(0, experience.length - XP_VISIBLE);
+// Lists collapse behind a "Show all" button: XP_VISIBLE rows everywhere, fewer on phones.
+const xpCollapses = experience.length > XP_VISIBLE_PHONE, xpPhoneOnly = experience.length <= XP_VISIBLE;
 const skills = SITE.skills.filter(g => g.items.length);
 const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o.links);
+// Hero actions only for sections that have something in them; the first is the filled button.
+const actions = [
+  projects.length > 0 && { href: url('projects/'), label: 'View projects' },
+  writings.length > 0 && { href: url('writing/'), label: 'Read my writing' }
+].filter((a): a is { href: string; label: string } => Boolean(a));
 ---
 <Base active="home">
 <main>
@@ -42,11 +48,13 @@ const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o
     {o.openTo && <p class="hero-open rise">{o.openTo}</p>}
     <h1 class="hero-title rise d1" id="hero-title">{h.headline}</h1>
     <p class="decode" id="decode" aria-label={h.intro}>{tokenize(h.intro).map(t => <span class="tok" aria-hidden="true">{t}</span>)}<span class="caret" id="caret" aria-hidden="true"></span></p>
-    <div class="cta-row">
-      <a class="pill" href={url('projects/')}>View projects</a>
-      {resume && <a class="pill pill-alt" href={resume} {...extAttrs(resume)}><Fragment set:html={DL} /> Resume</a>}
-      <More href={url('writing/')} label="Read my writing" />
-    </div>
+    {(actions.length > 0 || resume) && (
+      <div class="cta-row">
+        {actions[0] && <a class="pill" href={actions[0].href}>{actions[0].label}</a>}
+        {resume && <a class="pill pill-alt" href={resume} {...extAttrs(resume)}><Fragment set:html={DL} /> Resume</a>}
+        {actions[1] && <More href={actions[1].href} label={actions[1].label} />}
+      </div>
+    )}
   </section>
 
   {featured.length > 0 && (
@@ -75,20 +83,23 @@ const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o
       <div class:list={['about-cols', { one: !experience.length || !skills.length }]}>
         {experience.length > 0 && (
           <div><div class="xp"><h3 class="xp-title">{SITE.experienceTitle}</h3>
-            <ol data-xp-collapsed={hidden ? '1' : undefined}>
+            <ol data-collapsed={xpCollapses ? '' : undefined}>
               {experience.map((x, i) => (
-                <li class:list={{ now: !x.end }} data-xp-extra={hidden && i >= XP_VISIBLE ? '' : undefined}>
+                <li class:list={{ now: !x.end }} data-extra={i >= XP_VISIBLE ? '' : undefined} data-extra-phone={i >= XP_VISIBLE_PHONE ? '' : undefined}>
                   <span class="xp-when">{period(x)}</span><span class="xp-dot" aria-hidden="true"></span>
                   <span class="xp-what"><b>{x.role}</b><span class="xp-org">{x.org}</span>{x.team && <span class="xp-team">{x.team}</span>}{x.location && <span class="xp-loc">{x.location}</span>}</span>
                 </li>
               ))}
             </ol>
-            {hidden > 0 && <button class="xp-more" type="button" data-xp-toggle aria-expanded="false">Show all {experience.length} roles</button>}
+            {xpCollapses && <button class:list={['xp-more', { 'phone-only': xpPhoneOnly }]} type="button" data-expand aria-expanded="false" data-more={`Show all ${experience.length} roles`} data-less="Show fewer roles">Show all {experience.length} roles</button>}
           </div></div>
         )}
         {skills.length > 0 && (
           <div><div class="sk"><h3 class="xp-title">{SITE.skillsTitle}</h3>
-            {skills.map(g => <div class="sk-group"><h4>{g.group}</h4><ul class="chips">{g.items.map(i => <li>{i}</li>)}</ul></div>)}
+            <div class="sk-list" data-collapsed={skills.length > SKILLS_VISIBLE_PHONE ? '' : undefined}>
+              {skills.map((g, i) => <div class="sk-group" data-extra-phone={i >= SKILLS_VISIBLE_PHONE ? '' : undefined}><h4>{g.group}</h4><ul class="chips">{g.items.map(i => <li>{i}</li>)}</ul></div>)}
+            </div>
+            {skills.length > SKILLS_VISIBLE_PHONE && <button class="xp-more phone-only" type="button" data-expand aria-expanded="false" data-more="Show all skills" data-less="Show fewer skills">Show all skills</button>}
           </div></div>
         )}
       </div>

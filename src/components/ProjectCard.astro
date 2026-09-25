@@ -1,29 +1,36 @@
 ---
 /* Project card, used on the homepage row and the Projects catalog. Links to the
    project's page, or to another site when the project sets `url`. */
+import CardTitle from './CardTitle.astro';
 import DraftBadge from './DraftBadge.astro';
 import More from './More.astro';
 import { hasPage, projectHref, type Project } from '../lib/content';
-import { EXT, extAttrs, monogram, statusClass } from '../lib/render';
+import { extAttrs, PROJECT_GLYPH, statusClass } from '../lib/render';
 
 interface Props { project: Project }
 const { project } = Astro.props;
 const p = project.data;
 const href = projectHref(project), ext = !hasPage(project);
+// Cards show two categories and "+N"; the project page lists them all.
+const cats = p.categories, shown = cats.slice(0, 2).join(' · ') + (cats.length > 2 ? ` · +${cats.length - 2}` : '');
 ---
 <article class="pcard" data-cat={p.categories.join('|')}>
-  <div class="pcard-visual ink" set:html={monogram(p.name)} />
+  <div class="pcard-visual ink" set:html={PROJECT_GLYPH} />
   <div class="pcard-body">
-    <p class="kicker">{p.categories.join(' · ')}</p>
+    <p class="kicker"><span aria-hidden="true">{shown}</span><span class="sr">{cats.join(', ')}</span></p>
     <h2>
-      <a href={href} {...extAttrs(href)}>{p.name}{ext && <Fragment><span class="ext" aria-hidden="true" set:html={EXT} /><span class="sr">(opens external site)</span></Fragment>}</a>
+      <a href={href} {...extAttrs(href)}><CardTitle text={p.name} ext={ext} /></a>
       <DraftBadge draft={p.publish === 'Draft'} />
     </h2>
     <p class="t">{p.tagline}</p>
     <div class="meta">
       <span class:list={['status', statusClass(p.status)]}><i></i>{[p.status, p.year].filter(Boolean).join(' · ')}</span>
-      {p.links?.source && <More href={p.links.source} label="Source" />}
-      {p.links?.video && <More href={p.links.video} label="Demo video" />}
+      {(p.links?.source || p.links?.video) && (
+        <div class="pcard-links">
+          {p.links?.source && <More href={p.links.source} label="Source" />}
+          {p.links?.video && <More href={p.links.video} label="Demo video" />}
+        </div>
+      )}
     </div>
   </div>
 </article>

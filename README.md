@@ -48,8 +48,12 @@ built for it.
 `publish: Publish` to show it. Set `SHOW_DRAFTS = true` in `src/data/site.ts`
 to preview drafts locally, marked with a badge.
 
-**Resume and photo.** Put the files in `public/` and set `owner.resume` /
-`owner.photo` in `src/data/site.ts` to their names (e.g. `resume.pdf`).
+**Resume and photo.** Put the resume in `public/` and the photo in `src/assets/`
+(the build resizes it), then set `owner.resume` / `owner.photo` in
+`src/data/site.ts` to their file names (e.g. `resume.pdf`, `photo.jpeg`).
+
+**Link previews.** `public/og.png` (1200×630) is the image LinkedIn, Slack and
+iMessage show for any page. Replace it if you change your name or headline.
 
 **Writings.** `src/content/writings/sample-research-note/` is the template:
 copy the folder, rename it, and edit its `index.mdx`; it gets its own page at

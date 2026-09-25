@@ -1,0 +1,12 @@
+---
+/* A card's title text. For links that leave the site, adds the ↗ icon, kept on
+   the same line as the last word, plus a screen-reader note. */
+import { EXT } from '../lib/render';
+
+interface Props { text: string; ext: boolean }
+const { text, ext } = Astro.props;
+const words = text.split(' '), last = words.pop();
+---
+{ext
+  ? <Fragment>{words.length > 0 && `${words.join(' ')} `}<span class="nowrap">{last}<span class="ext" aria-hidden="true" set:html={EXT} /></span><span class="sr">(opens external site)</span></Fragment>
+  : text}

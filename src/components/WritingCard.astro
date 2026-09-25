@@ -1,5 +1,9 @@
 ---
-import { writingHref, type Writing } from '../lib/content';
+/* Writing card on the homepage. Visual: the cover image, else the chart, else a
+   document glyph. Phones lay it out as a row (visual left, text right). */
+import { Image } from 'astro:assets';
+import CardTitle from './CardTitle.astro';
+import { hasBody, writingHref, type Writing } from '../lib/content';
 import { chartSVG, extAttrs, fmtLong } from '../lib/render';
 
 interface Props { writing: Writing }
@@ -11,7 +15,9 @@ const DOC = '<svg viewBox="0 0 300 150" aria-hidden="true"><rect x="98" y="34" w
 ---
 <a class="card" href={href} {...extAttrs(href)}>
   <p class="card-kind">{w.type}</p>
-  <h3 class="card-title">{w.title}</h3>
+  <h3 class="card-title"><CardTitle text={w.title} ext={!hasBody(writing)} /></h3>
   <p class="card-meta">{meta}</p>
-  <div class="card-visual" set:html={w.figure ? chartSVG(w.figure.chart, true) : DOC} />
+  {w.cover
+    ? <div class="card-visual has-img"><Image src={w.cover.src} alt="" widths={[176, 400, 680]} sizes="(max-width: 640px) 88px, 340px" /></div>
+    : <div class="card-visual" set:html={w.figure ? chartSVG(w.figure.chart, true) : DOC} />}
 </a>

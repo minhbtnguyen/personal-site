@@ -1,10 +1,15 @@
 ---
-/* Owner photo in the About section, or an initials monogram when no photo is set. */
+/* Owner photo in the About section, or an initials monogram when no photo is set.
+   The photo lives in src/assets/ so the build resizes it and serves WebP. */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import { SITE } from '../data/site';
-import { asset } from '../lib/content';
 
 const o = SITE.owner;
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/*.{jpeg,jpg,png,webp,avif}', { eager: true });
+const photo = o.photo ? photos[`../assets/${o.photo}`]?.default : undefined;
+if (o.photo && !photo) throw new Error(`owner.photo "${o.photo}" not found in src/assets/.`);
 ---
-{o.photo
-  ? <img class="about-photo" src={asset(o.photo)} alt={`Portrait of ${o.name}`}>
+{photo
+  ? <Image class="about-photo" src={photo} alt={`Portrait of ${o.name}`} widths={[300, photo.width]} sizes="300px" loading="lazy" decoding="async" />
   : <span class="about-photo mono" aria-hidden="true">{o.initials}</span>}

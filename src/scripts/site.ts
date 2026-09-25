@@ -5,12 +5,11 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 /* ---------- Appearance ---------- */
 const SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 const MOON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 14.6A8.3 8.3 0 0 1 9.4 3.8a8.3 8.3 0 1 0 10.8 10.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
-const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 type Theme = 'light' | 'dark';
-/** The saved choice, or the system setting when the visitor hasn't chosen. */
+/** The saved choice; light unless the visitor picked dark. */
 const themeEffective = (): Theme => {
   const t = document.documentElement.getAttribute('data-theme');
-  return t === 'light' || t === 'dark' ? t : darkQuery.matches ? 'dark' : 'light';
+  return t === 'dark' ? 'dark' : 'light';
 };
 function applyTheme(theme: Theme) {
   document.documentElement.setAttribute('data-theme', theme);
@@ -26,16 +25,20 @@ function setTheme(theme: Theme) {
 }
 function syncThemeUI() {
   const eff = themeEffective();
+  // Safari tints its toolbar with theme-color; match the nav bar in each theme.
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', eff === 'dark' ? '#121213' : '#fbfbfd');
   document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach(b => {
     b.innerHTML = eff === 'dark' ? SUN : MOON;
     b.setAttribute('aria-label', eff === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
   });
 }
-darkQuery.addEventListener('change', syncThemeUI);
 
 /* ---------- Filters (Projects by category, Writing by type) ---------- */
 function applyFilter(kind: string, value: string) {
-  document.querySelectorAll<HTMLElement>(`[data-filter="${kind}"]`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === value)));
+  document.querySelectorAll<HTMLElement>(`[data-filter="${kind}"]`).forEach(b => {
+    b.setAttribute('aria-pressed', String(b.dataset.value === value));
+    if (b.dataset.value === value) b.scrollIntoView({ block: 'nearest', inline: 'nearest' }); // bring a half-hidden tab fully into view
+  });
   // A project lists its categories as "A|B"; it matches if any of them is selected.
   const match = (el: HTMLElement) => value === 'All' || (el.dataset[kind] ?? '').split('|').includes(value);
   const count = document.getElementById('count')!;
@@ -86,12 +89,13 @@ function mountDraw() {
 /* ---------- Clicks ---------- */
 document.addEventListener('click', e => {
   const t = e.target as Element;
-  const xt = t.closest<HTMLElement>('[data-xp-toggle]');
+  // "Show all" buttons expand the list right before them (experience, skills).
+  const xt = t.closest<HTMLElement>('[data-expand]');
   if (xt) {
     const list = xt.previousElementSibling as HTMLElement, open = xt.getAttribute('aria-expanded') === 'true';
-    list.toggleAttribute('data-xp-collapsed', open);
+    list.toggleAttribute('data-collapsed', open);
     xt.setAttribute('aria-expanded', String(!open));
-    xt.textContent = open ? `Show all ${list.children.length} roles` : 'Show fewer roles';
+    xt.textContent = (open ? xt.dataset.more : xt.dataset.less) ?? '';
     if (open) list.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
     return;
   }
@@ -111,6 +115,20 @@ document.addEventListener('click', e => {
 /* ---------- Email links (see mailAttrs in src/lib/render.ts) ---------- */
 document.querySelectorAll<HTMLAnchorElement>('a[data-mail]').forEach(a => { a.href = `mailto:${atob(a.dataset.mail!)}`; });
 
+/* ---------- Filter bars: fade whichever edge has more tabs to scroll to ---------- */
+function mountSegFade() {
+  document.querySelectorAll<HTMLElement>('.seg').forEach(seg => {
+    const update = () => {
+      seg.classList.toggle('fade-l', seg.scrollLeft > 1);
+      seg.classList.toggle('fade-r', seg.scrollLeft + seg.clientWidth < seg.scrollWidth - 1);
+    };
+    update();
+    seg.addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update, { passive: true });
+  });
+}
+
 syncThemeUI();
 mountDecode();
 mountDraw();
+mountSegFade();

@@ -8,25 +8,28 @@ export interface Link { label: string; url: string }
 
 export const SHOW_DRAFTS = false; // set to true locally to preview writings and projects marked `publish: Draft`
 export const XP_VISIBLE = 5;      // experience rows shown before the "Show all" button
+export const XP_VISIBLE_PHONE = 3;     // the same, on phones (a shorter home page)
+export const SKILLS_VISIBLE_PHONE = 2; // skill groups shown on phones before "Show all skills"
 
 export const SITE = {
   owner: {
     name: 'Minh Nguyen',
     initials: 'MN',
     email: 'minhbtnguyen.work@gmail.com',
-    role: 'Machine Learning Engineer',
+    role: 'Engineering',
     company: 'BlackRock',
     location: 'Philadelphia, PA',
     openTo: 'Open to Bay Area, Seattle and New York', // optional; set to '' to hide
     /* Put the file in public/ and give its name, e.g. 'resume.pdf'. Empty hides
        every Resume link. An http(s) URL also works. */
     resume: '',
-    /* e.g. 'headshot.jpg' in public/. Empty shows an initials monogram. */
+    /* A file in src/assets/, e.g. 'headshot.jpg' (resized and served as WebP).
+       Empty shows an initials monogram. */
     photo: 'photo.jpeg',
     links: [
       { label: 'GitHub', url: 'https://github.com/minhbtnguyen' },
       { label: 'Google Scholar', url: 'https://scholar.google.com/citations?user=9Pg_ZTgAAAAJ&hl=en' },
-      { label: 'LinkedIn', url: 'https://linkedin.com/in/minhbtnguyen' }
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/minhbtnguyen/' }
     ] as Link[]
   },
 
@@ -49,7 +52,7 @@ export const SITE = {
 
   about: {
     statement: 'At BlackRock since 2024, building LLM and agentic systems for financial workflows. Before that: Tesla, Homebase (YC), Shield AI and ML research labs.', // optional; set to '' to remove
-    link: { label: 'Full experience on LinkedIn', url: 'https://linkedin.com/in/minhbtnguyen' } as Link | undefined
+    link: { label: 'Full experience on LinkedIn', url: 'https://www.linkedin.com/in/minhbtnguyen/' } as Link | undefined
   },
 
   /* Compact timeline in the About section, beside Skills. Dates as 'YYYY-MM'

@@ -4,14 +4,13 @@
 import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import More from '../../components/More.astro';
 import Code from '../../components/mdx/Code.astro';
 import Figure from '../../components/mdx/Figure.astro';
 import Formula from '../../components/mdx/Formula.astro';
 import Note from '../../components/mdx/Note.astro';
 import Output from '../../components/mdx/Output.astro';
 import { getProjects, getWritings, hasBody, projectHref, url, type Writing } from '../../lib/content';
-import { CHEV, figureHTML, fmtLong, Footnotes } from '../../lib/render';
+import { CHEV, extAttrs, figureHTML, fmtLong, Footnotes } from '../../lib/render';
 
 export async function getStaticPaths() {
   const writings = await getWritings();
@@ -27,16 +26,17 @@ const { Content } = await render(writing);
 const notes = new Footnotes();
 const figure = w.figure && figureHTML(w.figure, notes);
 ---
-<Base title={w.title} description={w.dek} active="writing" notes={notes.list}>
+<Base title={w.title} description={w.dek} active="writing" notes={notes.list} type="article">
 <main>
   <header class="a-head">
     <a class="crumb" href={url('writing/')}><Fragment set:html={CHEV} /> All writings</a>
-    <p class="a-kind"><span>{w.type}</span><time datetime={w.date}>{fmtLong(w.date)}</time>{w.readTime && <span>{w.readTime}</span>}</p>
+    <ul class="tags" aria-label="Type"><li>{w.type}</li></ul>
     <h1>{w.title}</h1>
     {w.dek && <p class="a-dek">{w.dek}</p>}
-    {proj && <div class="p-links"><More href={projectHref(proj)} label={`Part of ${proj.data.name}`} /></div>}
+    <p class="d-meta sep"><time datetime={w.date}>{fmtLong(w.date)}</time>{w.readTime && <span>{w.readTime}</span>}</p>
+    {proj && <div class="d-links"><a class="pill pill-alt" href={projectHref(proj)} {...extAttrs(projectHref(proj))}>Part of {proj.data.name}</a></div>}
   </header>
-  {w.cover && <Image class="a-cover" src={w.cover.src} alt={w.cover.alt} widths={[740, 1480]} sizes="(max-width: 784px) 100vw, 740px" loading="eager" />}
+  {w.cover && <Image class="a-cover" src={w.cover.src} alt={w.cover.alt} widths={[740, 1480]} sizes="(max-width: 784px) 100vw, 740px" loading="eager" fetchpriority="high" />}
   {figure && <Fragment set:html={figure} />}
   <div class="body"><Content components={{ Code, Figure, Formula, Note, Output }} /></div>
 </main>

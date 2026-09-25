@@ -3,9 +3,8 @@
    it gets its own page at /projects/<filename>/. Projects that set `url` link
    out instead and get no page. */
 import Base from '../../layouts/Base.astro';
-import More from '../../components/More.astro';
 import { getProjects, hasPage, url, type Project } from '../../lib/content';
-import { CHEV } from '../../lib/render';
+import { CHEV, extAttrs, statusClass } from '../../lib/render';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -26,11 +25,14 @@ const links = [
 <main>
   <header class="a-head">
     <a class="crumb" href={url('projects/')}><Fragment set:html={CHEV} /> All projects</a>
-    <p class="a-kind"><span>{p.categories.join(' · ')}</span><span>{p.year}</span><span>{p.status}</span></p>
+    <ul class="tags" aria-label="Categories">{p.categories.map(c => <li>{c}</li>)}</ul>
     <h1>{p.name}</h1>
     <p class="a-dek">{p.tagline}</p>
+    <p class="d-meta"><span>{p.year}</span><span class:list={['status', statusClass(p.status)]}><i></i>{p.status}</span></p>
     {p.summary && <p class="p-summary">{p.summary}</p>}
-    {links.length > 0 && <div class="p-links">{links.map(l => <More href={l.url} label={l.label} />)}</div>}
+    {links.length > 0 && (
+      <div class="d-links">{links.map((l, i) => <a class:list={['pill', { 'pill-alt': i > 0 }]} href={l.url} {...extAttrs(l.url)}>{l.label}</a>)}</div>
+    )}
   </header>
 </main>
 </Base>
