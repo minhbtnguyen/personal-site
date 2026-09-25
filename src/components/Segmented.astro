@@ -1,0 +1,8 @@
+---
+/* Filter buttons; the client script hides items whose data-<name> does not match. */
+interface Props { name: 'cat' | 'type'; values: string[]; label: string }
+const { name, values, label } = Astro.props;
+---
+<div class="seg" role="group" aria-label={label}>
+  {['All', ...values].map((v, i) => <button type="button" data-filter={name} data-value={v} aria-pressed={i === 0 ? 'true' : 'false'}>{v}</button>)}
+</div>

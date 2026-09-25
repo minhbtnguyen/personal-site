@@ -1,0 +1,6 @@
+---
+/* Usage: <Formula expr="throughput = requests / seconds" caption="Define the formula." /> */
+interface Props { expr: string; caption?: string }
+const { expr, caption } = Astro.props;
+---
+<div class="formula-wrap"><div class="formula"><div>{expr}</div>{caption && <p>{caption}</p>}</div></div>

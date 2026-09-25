@@ -1,0 +1,19 @@
+name: Sample Project C
+category: Data
+year: 2025
+status: Live
+featured: true
+tagline: A pipeline that turns raw data into a decision-ready output.
+result: { text: 0M records a day in production }
+summary: "A minimal sample: hero, overview and facts only."
+links:
+  source: https://github.com/your-username/your-repository
+  demo: https://example.com
+visual:
+  kind: steps
+  steps:
+    - { title: Ingest, sub: Collect raw data }
+    - { title: Transform, sub: Clean and enrich }
+    - { title: Model, sub: Train and evaluate }
+    - { title: Deliver, sub: Publish results }
+overview: Describe the data problem, the pipeline that solves it, and who uses the output.

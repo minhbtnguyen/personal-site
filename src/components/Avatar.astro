@@ -1,0 +1,12 @@
+---
+/* Owner photo, or an initials monogram when no photo is set. */
+import { SITE } from '../data/site';
+import { asset } from '../lib/content';
+
+interface Props { class: 'about-photo' | 'avatar' }
+const { class: cls } = Astro.props;
+const o = SITE.owner;
+---
+{o.photo
+  ? <img class={cls} src={asset(o.photo)} alt={cls === 'avatar' ? '' : `Portrait of ${o.name}`}>
+  : <span class:list={[cls, 'mono']} aria-hidden="true">{o.initials}</span>}

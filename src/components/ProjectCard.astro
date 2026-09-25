@@ -1,0 +1,24 @@
+---
+/* Project card, used on the homepage row and the Projects catalog. */
+import DraftBadge from './DraftBadge.astro';
+import More from './More.astro';
+import { projectUrl, type Project } from '../lib/content';
+import { statusClass, visual } from '../lib/render';
+
+interface Props { project: Project }
+const { project } = Astro.props;
+const p = project.data;
+---
+<article class="pcard" data-cat={p.category}>
+  <div class="pcard-visual ink" set:html={visual(p.visual, p.name)} />
+  <div class="pcard-body">
+    <p class="kicker">{p.category}</p>
+    <h2><a href={projectUrl(project.id)}>{p.name}</a><DraftBadge draft={p.draft} /></h2>
+    <p class="t">{p.tagline}</p>
+    {p.result && <p class="pcard-result">{p.result.text}</p>}
+    <div class="meta">
+      <span class:list={['status', statusClass(p.status)]}><i></i>{[p.status, p.year].filter(Boolean).join(' · ')}</span>
+      {p.links?.source && <More href={p.links.source} label="Source" />}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,81 @@
+---
+# This sample uses every content block available to a post.
+# type: any label, e.g. Research note, Article, Paper, Talk. date: YYYY-MM-DD.
+type: Research note
+date: "2026-06-18"
+title: "Sample research note: measuring a system under load"
+dek: A one- or two-sentence summary of the question, the method and the finding. This sample uses every content block available to a post.
+readTime: 6 min read
+project: sample-project-a
+figure:
+  title: Latency by input size
+  footnote: Sample data. Replace with measured results and describe the hardware and method.
+  caption: Figure 1. Describe what the chart shows and the single conclusion the reader should draw from it.
+  chart:
+    x: ["1k", "10k", "100k", "1M"]
+    xLabel: Input size
+    yMax: 100
+    yStep: 20
+    yLabel: Latency (ms)
+    threshold: { value: 80, label: Latency budget }
+    series:
+      - { name: Baseline, tone: muted, values: [4, 12, 41, 92] }
+      - { name: Proposed, tone: accent, values: [2, 6, 17, 38] }
+    markers:
+      - { series: 0, index: 3, label: Exceeds budget }
+---
+
+Open with the question the post answers and why it matters. One paragraph is usually enough to establish context for a technical reader.
+
+> Use a pull quote to state the single most important finding in one sentence.
+
+## Background
+
+Explain the concepts the reader needs. Inline code such as `benchmark()` is formatted automatically when wrapped in backticks.
+
+<Formula expr="throughput = completed_requests / elapsed_seconds" caption="Define any formula the results depend on." />
+
+## Method
+
+Describe the experiment precisely enough that a reader could reproduce it. Include the script below.
+
+<Code filename="benchmark.py">
+```python
+import statistics
+import time
+
+def benchmark(fn, inputs, repeats=5):
+    """Return the median latency in milliseconds for each input."""
+    results = {}
+    for name, x in inputs.items():
+        timings = []
+        for _ in range(repeats):
+            start = time.perf_counter()
+            fn(x)
+            timings.append((time.perf_counter() - start) * 1000)
+        results[name] = statistics.median(timings)
+    return results
+
+if __name__ == "__main__":
+    sizes = {f"n={n}": list(range(n, 0, -1)) for n in (1000, 10000, 100000)}
+    for name, ms in benchmark(sorted, sizes).items():
+        print(f"{name:<10} {ms:8.2f} ms")
+```
+</Code>
+
+<Output title="Output" text={`$ python benchmark.py
+n=1000         0.02 ms
+n=10000        0.19 ms
+n=100000       2.41 ms`} />
+
+<Note>List requirements and how to run the script, for example `python benchmark.py`.</Note>
+
+## Results
+
+Report what the data shows, referring to Figure 1. Separate observation from interpretation.[^1]
+
+## Conclusion
+
+Summarize the finding, its limitations, and the next question it raises.
+
+[^1]: Sample output. Replace with your own run.

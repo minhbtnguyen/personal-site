@@ -1,0 +1,20 @@
+---
+/* Wraps a fenced code block with a filename bar and Copy button. Put the
+   fence inside the component (not in a prop: MDX strips indentation there):
+
+   <Code filename="run.py">
+   ```python
+   print("hi")
+   ```
+   </Code>
+*/
+import { nextId } from '../../lib/render';
+
+interface Props { filename?: string }
+const { filename = 'Code' } = Astro.props;
+const id = nextId('code');
+---
+<div class="wide"><div class="cb">
+  <div class="cb-bar"><span class="cb-name">{filename}</span><button class="copy" type="button" data-copy={id}>Copy</button></div>
+  <div id={id}><slot /></div>
+</div></div>

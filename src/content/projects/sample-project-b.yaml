@@ -1,0 +1,34 @@
+# A subset of sections. Sections without content are omitted automatically.
+name: Sample Project B
+category: Agents
+year: 2026
+status: In progress
+featured: true
+tagline: A short, specific description of what this agent does.
+result: { text: "00% of tasks done without help" }
+summary: A sample with a subset of sections. Sections without content are omitted automatically.
+links:
+  source: https://github.com/your-username/your-repository
+visual:
+  kind: terminal
+  title: example session
+  lines:
+    - { label: task, text: Summarize the latest quarterly report., tone: q }
+    - { label: plan, text: Locate the file and extract key sections. }
+    - { label: run, text: 'load_report("q3.pdf")', tone: run }
+    - { label: error, text: "FileNotFoundError: q3.pdf", tone: err }
+    - { label: plan, text: Search the directory for a matching file. }
+    - { label: run, text: 'load_report(find("q3*"))', tone: run }
+    - { label: done, text: Completed on the second attempt., tone: ok }
+overview: State what the agent is for, who it serves, and the one capability that distinguishes it.
+architecture:
+  heading: How it works.
+  loop: retry
+  output: answer
+  stages:
+    - { title: Plan, sub: decides the next action, body: Explain how the agent chooses what to do next. }
+    - { title: Act, sub: calls a tool, body: Explain which tools are available and how they are invoked. }
+    - { title: Observe, sub: reads the result, body: Explain how results and errors are fed back to the agent. }
+decisions:
+  - { title: Key design decision, body: Explain the choice and why it was made. }
+  - { title: Known limitation, body: Describe what the system does not yet handle well. }

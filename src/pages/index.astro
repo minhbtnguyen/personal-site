@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import Avatar from '../components/Avatar.astro';
+import More from '../components/More.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { SITE, XP_VISIBLE } from '../data/site';
+import { asset, getPosts, getProjects, url } from '../lib/content';
+import { extAttrs, mailAttrs, tokenize } from '../lib/render';
+
+const DL = '<svg class="dl" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v8M3.5 6.5L7 10l3.5-3.5M2 12.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const h = SITE.home, o = SITE.owner;
+const resume = o.resume && asset(o.resume);
+const projects = await getProjects();
+const posts = await getPosts();
+
+let featured = projects.filter(p => p.data.featured).slice(0, 3);
+if (!featured.length) featured = projects.slice(0, 3);
+
+const idParts = [o.role && o.company ? `${o.role} at ${o.company}` : o.role, o.location].filter(Boolean);
+
+const experience = SITE.experience.slice().sort((a, b) =>
+  String(b.end || '9999').localeCompare(String(a.end || '9999')) || String(b.start).localeCompare(String(a.start)));
+const M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const part = (d: string) => { const [y, m] = d.split('-'); return { y, m: m ? M[Number(m) - 1] : '' }; };
+const period = (x: typeof experience[number]) => {
+  const a = part(x.start);
+  if (!x.end) return `${a.m ? a.m + ' ' : ''}${a.y} – Present`;
+  const b = part(x.end);
+  if (a.y === b.y) return a.m && b.m ? `${a.m} – ${b.m} ${a.y}` : a.y;
+  return `${a.m ? a.m + ' ' : ''}${a.y} – ${b.m ? b.m + ' ' : ''}${b.y}`;
+};
+const hidden = Math.max(0, experience.length - XP_VISIBLE);
+const skills = SITE.skills.filter(g => g.items.length);
+const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o.links);
+---
+<Base active="home">
+<main>
+  <section class="hero ink" aria-labelledby="hero-title">
+    <p class="hero-id rise"><b>{o.name}</b>{idParts.map(x => <span>{x}</span>)}</p>
+    {o.openTo && <p class="hero-open rise">{o.openTo}</p>}
+    <h1 class="hero-title rise d1" id="hero-title">{h.headline}</h1>
+    <p class="decode" id="decode" aria-label={h.intro}>{tokenize(h.intro).map(t => <span class="tok" aria-hidden="true">{t}</span>)}<span class="caret" id="caret" aria-hidden="true"></span></p>
+    <div class="cta-row">
+      <a class="pill" href={url('projects/')}>View projects</a>
+      {resume && <a class="pill pill-alt" href={resume} {...extAttrs(resume)}><Fragment set:html={DL} /> Resume</a>}
+      <More href={url('blog/')} label="Read the blog" />
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section" id="projects" aria-labelledby="f-title"><div class="container">
+      <div class="head-row"><h2 class="h-xl" id="f-title">{h.featuredTitle}</h2><More href={url('projects/')} label="All projects" /></div>
+      <div class="row3">{featured.map(p => <ProjectCard project={p} />)}</div>
+    </div></section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="section alt" id="writing" aria-labelledby="w-title"><div class="container">
+      <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2><More href={url('blog/')} label="All posts" /></div>
+      <div class="cards">{posts.slice(0, 3).map(w => <PostCard post={w} />)}</div>
+    </div></section>
+  )}
+
+  <section class="section about" id="about" aria-label="About"><div class="container">
+    <div class="about-grid">
+      <Avatar class="about-photo" />
+      <div>
+        {SITE.about.statement ? <p class="statement">{SITE.about.statement}</p> : <p class="about-name">{o.name}</p>}
+        {SITE.about.link && <More href={SITE.about.link.url} label={SITE.about.link.label} />}
+      </div>
+    </div>
+    {(experience.length > 0 || skills.length > 0) && (
+      <div class:list={['about-cols', { one: !experience.length || !skills.length }]}>
+        {experience.length > 0 && (
+          <div><div class="xp"><h3 class="xp-title">{SITE.experienceTitle}</h3>
+            <ol data-xp-collapsed={hidden ? '1' : undefined}>
+              {experience.map((x, i) => (
+                <li class:list={{ now: !x.end }} data-xp-extra={hidden && i >= XP_VISIBLE ? '' : undefined}>
+                  <span class="xp-when">{period(x)}</span><span class="xp-dot" aria-hidden="true"></span>
+                  <span class="xp-what"><b>{x.role}</b><span class="xp-org">{x.org}</span>{x.team && <span class="xp-team">{x.team}</span>}{x.location && <span class="xp-loc">{x.location}</span>}</span>
+                </li>
+              ))}
+            </ol>
+            {hidden > 0 && <button class="xp-more" type="button" data-xp-toggle aria-expanded="false">Show all {experience.length} roles</button>}
+          </div></div>
+        )}
+        {skills.length > 0 && (
+          <div><div class="sk"><h3 class="xp-title">{SITE.skillsTitle}</h3>
+            {skills.map(g => <div class="sk-group"><h4>{g.group}</h4><ul class="chips">{g.items.map(i => <li>{i}</li>)}</ul></div>)}
+          </div></div>
+        )}
+      </div>
+    )}
+  </div></section>
+
+  <section class="contact ink" id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">{SITE.contact.headline}</h2><p>{SITE.contact.body}</p>
+    <a class="pill" {...mailAttrs()}>{SITE.contact.cta}</a>
+    <div class="tile-links">{contactLinks.map(l => <More href={l.url} label={l.label} />)}</div>
+  </section>
+</main>
+</Base>

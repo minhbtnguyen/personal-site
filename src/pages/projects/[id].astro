@@ -1,0 +1,140 @@
+---
+import Base from '../../layouts/Base.astro';
+import More from '../../components/More.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, getProjects, postHref, projectUrl, url, type Project } from '../../lib/content';
+import { CHEV, esc, extAttrs, Footnotes, inline, pipelineSVG, visual, windowHTML } from '../../lib/render';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { id: project.id },
+    props: {
+      project,
+      prev: projects[(i - 1 + projects.length) % projects.length]!,
+      next: projects[(i + 1) % projects.length]!,
+      count: projects.length
+    }
+  }));
+}
+
+interface Props { project: Project; prev: Project; next: Project; count: number }
+const { project, prev, next, count } = Astro.props;
+const p = project.data;
+const related = (await getPosts()).filter(w => w.data.project?.id === project.id);
+
+const primary = p.links?.source ? { url: p.links.source, label: 'View source' }
+  : p.links?.demo ? { url: p.links.demo, label: 'Live demo' } : null;
+const facts = p.facts ?? [
+  { label: 'Category', value: p.category },
+  { label: 'Status', value: p.status },
+  { label: 'Year', value: String(p.year) }
+];
+const secs = [
+  ['overview', 'Overview'],
+  p.architecture && ['architecture', 'How it works'],
+  p.metrics && ['results', 'Results'],
+  p.decisions && ['decisions', 'Decisions'],
+  p.source && ['source', 'Source']
+].filter(Boolean) as [string, string][];
+const isChip = p.visual?.kind === 'chip';
+
+// Footnotes are numbered in page order, then listed in the footer.
+const notes = new Footnotes();
+const result = p.result && esc(p.result.text) + notes.ref(p.result.footnote);
+const metrics = (p.metrics ?? []).map(m => ({ num: esc(m.value) + notes.ref(m.footnote), label: m.label }));
+
+const tree = (p.source?.tree ?? []).map(t => (t.endsWith('/') ? `<span class="k-dir">${esc(t)}</span>` : esc(t))).join('   ');
+const sourceWindow = p.source && windowHTML('Terminal', `<span class="k-q">$</span> ${esc(p.source.clone)}${tree ? `\n<span class="k-q">$</span> ls\n${tree}` : ''}`, true);
+---
+<Base title={p.name} description={p.tagline} active="projects" stickyNav={false} notes={notes.list}>
+<nav class="lnav" aria-label={p.name}><div class="lnav-inner">
+  <a class="lnav-title" href="#top">{p.name}</a>
+  <div class="lnav-right">
+    {secs.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+    {primary && <a class="pill pill-sm" href={primary.url} {...extAttrs(primary.url)}>{primary.label}</a>}
+  </div>
+</div></nav>
+<main id="top">
+  <section class="p-hero ink" aria-labelledby="p-title">
+    <a class="crumb" href={url('projects/')}><Fragment set:html={CHEV} /> All projects</a>
+    <p class="kicker rise">{p.category}</p>
+    <h1 id="p-title" class="rise d1">{p.name}</h1>
+    <p class="p-lede rise d2">{p.tagline}</p>
+    {p.summary && <p class="p-sub rise d2">{p.summary}</p>}
+    {result && <p class="p-result rise d2"><span class="kicker">Key result</span><strong set:html={result} /></p>}
+    <div class="cta-row rise d3">
+      {primary && <a class="pill" href={primary.url} {...extAttrs(primary.url)}>{primary.label}</a>}
+      {p.links?.demo && primary && primary.url !== p.links.demo && <More href={p.links.demo} label="Live demo" />}
+      {related[0] && <More href={postHref(related[0])} label="Read the write-up" />}
+    </div>
+    <div class:list={['p-visual rise d4', { glow: isChip }]} set:html={visual(p.visual, p.name)} />
+  </section>
+
+  <section class="section" id="overview" aria-label="Overview" style={isChip ? 'padding-top:clamp(160px,17vw,210px)' : undefined}><div class="container">
+    {p.overview && <p class="statement">{p.overview}</p>}
+    <dl class="facts" style={p.overview ? undefined : 'margin-top:0;border-top:0;padding-top:0'}>
+      {facts.map(f => <div class="fact"><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
+    </dl>
+  </div></section>
+
+  {(p.challenge || p.approach) && (
+    <section class="section" style="background:var(--tile)" aria-label="Challenge and approach"><div class="two-col">
+      {p.challenge && <div><h3>The challenge</h3><p set:html={inline(p.challenge)} /></div>}
+      {p.approach && <div><h3>The approach</h3><p set:html={inline(p.approach)} /></div>}
+    </div></section>
+  )}
+
+  {p.architecture && (
+    <section class="ink" id="architecture" style="padding:clamp(96px,12vw,150px) 0 40px" aria-labelledby="arch-title">
+      <div class="center" style="padding:0 22px"><h2 class="h-xl" id="arch-title">{p.architecture.heading ?? 'How it works.'}</h2>{p.architecture.sub && <p class="h-sub">{p.architecture.sub}</p>}</div>
+      <div class="scrolly">
+        <div class="scrolly-sticky" set:html={pipelineSVG(p.architecture)} />
+        <div class="scrolly-steps">
+          {p.architecture.stages.map((s, k) => (
+            <div class:list={['step', { 'is-active': k === 0 }]} data-step={k}>
+              <div class="step-num">{k + 1}</div><h3>{s.heading ?? s.title}</h3><p set:html={inline(s.body ?? '')} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {p.metrics && (
+    <section class="section" id="results" aria-labelledby="res-title">
+      <div class="center"><h2 class="h-xl" id="res-title">{p.metricsTitle ?? 'Results.'}</h2></div>
+      <div class="specs">{metrics.map(m => <div><div class="spec-num" set:html={m.num} /><p class="spec-label">{m.label}</p></div>)}</div>
+    </section>
+  )}
+
+  {p.decisions && (
+    <section class="section decisions" id="decisions" aria-labelledby="dec-title"><div class="container">
+      <h2 class="h-xl" id="dec-title">Design decisions.</h2>
+      <div class="dgrid">{p.decisions.map((d, k) => <article class="dcard"><div class="dnum" aria-hidden="true">{k + 1}</div><h3>{d.title}</h3><p set:html={inline(d.body)} /></article>)}</div>
+    </div></section>
+  )}
+
+  {p.source && (
+    <section class="section ink src center" id="source" aria-labelledby="src-title">
+      <h2 class="h-xl" id="src-title">Explore the source.</h2>{p.source.note && <p class="h-sub">{p.source.note}</p>}
+      <Fragment set:html={sourceWindow} />
+      {primary && <a class="pill" href={primary.url} {...extAttrs(primary.url)}>{primary.label}</a>}
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="section" aria-labelledby="rel-title"><div class="container">
+      <div class="head-row"><h2 class="h-xl" id="rel-title">Related writing.</h2></div>
+      <div class="cards">{related.map(w => <PostCard post={w} />)}</div>
+    </div></section>
+  )}
+
+  {count > 1 && (
+    <nav class="pn" aria-label="More projects">
+      <a href={projectUrl(prev.id)}><small>Previous project</small><strong>{prev.data.name}</strong><span>{prev.data.tagline}</span></a>
+      <a class="nx" href={projectUrl(next.id)}><small>Next project</small><strong>{next.data.name}</strong><span>{next.data.tagline}</span></a>
+    </nav>
+  )}
+</main>
+</Base>

@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import DraftBadge from '../../components/DraftBadge.astro';
+import PageHero from '../../components/PageHero.astro';
+import Segmented from '../../components/Segmented.astro';
+import { FILTER_MIN, SITE } from '../../data/site';
+import { getPosts, hasBody, postHref, type Post } from '../../lib/content';
+import { CHEV, EXT, extAttrs, fmtShort, yearOf } from '../../lib/render';
+
+const posts = await getPosts();
+const types = [...new Set(posts.map(p => p.data.type))];
+const years: { y: number; posts: Post[] }[] = [];
+for (const p of posts) {
+  const y = yearOf(p.data.date);
+  let g = years.find(x => x.y === y);
+  if (!g) { g = { y, posts: [] }; years.push(g); }
+  g.posts.push(p);
+}
+const plural = (n: number) => `${n} ${n === 1 ? 'post' : 'posts'}`;
+---
+<Base title="Blog" description={SITE.blogPage.intro} active="blog">
+<main>
+  <PageHero title={SITE.blogPage.title} intro={SITE.blogPage.intro} />
+  <div class="toolbar">
+    {types.length > 1 && posts.length >= FILTER_MIN ? <Segmented name="type" values={types} label="Filter posts by type" /> : <span></span>}
+    <span class="count" id="count" aria-live="polite">{plural(posts.length)}</span>
+  </div>
+  <section class="tl" aria-label="All posts">
+    {years.map(g => (
+      <div class="tl-year" data-year={g.y}>
+        <h2>{g.y}<small data-yc>{plural(g.posts.length)}</small></h2>
+        <ol class="tl-list">
+          {g.posts.map(p => {
+            const w = p.data, ext = !hasBody(p), href = postHref(p);
+            return (
+              <li class:list={['tl-item', { ext }]} data-type={w.type}>
+                <a href={href} {...extAttrs(href)}>
+                  <div>
+                    <p class="tl-meta"><span class="tl-type">{w.type}</span><time datetime={w.date}>{fmtShort(w.date)}</time>{w.venue ? <span>{w.venue}</span> : w.readTime && <span>{w.readTime}</span>}</p>
+                    <h3>{w.title}<DraftBadge draft={w.draft} /></h3>{w.dek && <p>{w.dek}</p>}
+                  </div>
+                  <span class="tl-go" aria-hidden="true" set:html={ext ? EXT : CHEV} />{ext && <span class="sr">(opens external site)</span>}
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    ))}
+  </section>
+</main>
+</Base>

@@ -1,0 +1,7 @@
+---
+import { CHEV, extAttrs } from '../lib/render';
+
+interface Props { href: string; label: string }
+const { href, label } = Astro.props;
+---
+<a class="more" href={href} {...extAttrs(href)}>{label} <Fragment set:html={CHEV} /></a>

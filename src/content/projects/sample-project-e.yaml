@@ -1,0 +1,14 @@
+name: Sample Project E
+category: Research
+year: 2024
+status: Complete
+tagline: A research prototype exploring an open question.
+summary: Describe the question, the method, and the finding in plain terms.
+links:
+  source: https://github.com/your-username/your-repository
+visual:
+  kind: steps
+  steps:
+    - { title: Hypothesis, sub: State the question }
+    - { title: Experiment, sub: Design and run it }
+    - { title: Finding, sub: Report the result }

@@ -1,0 +1,53 @@
+# Every optional section of the project page is used here.
+# Status values: Live, In progress, Complete, Archived.
+# Visual kinds: chip, terminal, steps, image. Omit `visual` for a monogram.
+name: Sample Project A
+category: Machine learning
+year: 2026
+status: In progress
+featured: true
+tagline: A one-line statement of what the project does and why it matters.
+summary: Two or three sentences describing the problem, the approach and the outcome. This sample uses every optional section of the project template.
+result: { text: "0.0× faster than the baseline", footnote: Sample result. Replace with a measured number and how you measured it. }
+facts:
+  - { label: Type, value: Independent project }
+  - { label: Status, value: In progress }
+  - { label: Year, value: "2026" }
+  - { label: Stack, value: "Python, PyTorch" }
+links:
+  source: https://github.com/your-username/your-repository
+  demo: https://example.com
+visual:
+  kind: chip
+  blocks:
+    - { label: Ingest }
+    - { label: Preprocess }
+    - { label: Model }
+    - { label: Evaluate }
+    - { label: Cache, accent: true }
+    - { label: Serve }
+overview: "Frame the project in one or two sentences: the problem it addresses, why existing approaches fall short, and what this project does differently."
+challenge: Describe the specific problem or constraint that motivated the work, including what made it difficult to solve with existing tools.
+approach: Summarize the technical approach and the key idea that made it work. Keep implementation detail for the sections below.
+architecture:
+  heading: How it works.
+  sub: A walkthrough of the system, one stage at a time.
+  loop: repeat
+  output: result
+  stages:
+    - { title: Input, sub: receives requests, heading: Describe the first stage., body: "Explain what this stage receives, what it does with it, and what it passes to the next stage." }
+    - { title: Processing, sub: prepares the data, heading: Describe the second stage., body: Explain the transformation applied here and why it is necessary. }
+    - { title: Model, sub: core computation, side: { title: Store, sub: "read · write" }, heading: Describe the core component., body: "Explain the central computation and how it interacts with any supporting component, shown on the right." }
+    - { title: Output, sub: returns the result, heading: Describe the final stage., body: Explain what is returned and whether the process repeats. }
+metricsTitle: Results.
+metrics:
+  - { value: "0.0×", label: Improvement over the baseline, footnote: Sample value. Replace with a measured result and state how it was measured. }
+  - { value: "0.00", label: Primary evaluation metric }
+  - { value: "00 ms", label: Median latency at target load }
+decisions:
+  - { title: Why this architecture, body: Explain the central design choice and the alternatives that were considered. }
+  - { title: What was traded off, body: "State the cost of the choice honestly: what became harder, slower or more expensive." }
+  - { title: What comes next, body: Describe the next planned improvement and what it is expected to change. }
+source:
+  clone: git clone https://github.com/your-username/your-repository
+  tree: [src/, tests/, benchmarks/, docs/, README.md]

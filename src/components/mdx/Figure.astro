@@ -1,0 +1,9 @@
+---
+/* Line chart inside a post body. Takes the same fields as a post's `figure`.
+   Usage: <Figure title="Latency" caption="..." chart={{ x: [...], yMax: 100, yStep: 20, series: [...] }} /> */
+import type { Post } from '../../lib/content';
+import { figureHTML } from '../../lib/render';
+
+type Props = NonNullable<Post['data']['figure']>;
+---
+<Fragment set:html={figureHTML(Astro.props, null, true)} />

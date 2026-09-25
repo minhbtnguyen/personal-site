@@ -1,0 +1,61 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import { SITE } from '../data/site';
+import { asset, url } from '../lib/content';
+import { extAttrs, inline } from '../lib/render';
+import { themeInit } from '../lib/theme-init.mjs';
+
+interface Props {
+  title?: string;
+  description?: string;
+  active?: 'home' | 'projects' | 'blog';
+  stickyNav?: boolean;
+  notes?: string[];
+}
+const { title, description = SITE.about.statement || SITE.home.intro, active = 'home', stickyNav = true, notes = [] } = Astro.props;
+const o = SITE.owner;
+const pageTitle = title ? `${title} — ${o.name}` : o.role ? `${o.name} — ${o.role}` : o.name;
+const cur = (k: string) => (active === k ? 'page' : undefined);
+const resume = o.resume && asset(o.resume);
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{pageTitle}</title>
+<meta name="description" content={description}>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="tdm-reservation" content="1">
+<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)}>
+<Font cssVariable="--font-inter" />
+<Font cssVariable="--font-jetbrains" />
+<script is:inline set:html={themeInit} />
+</head>
+<body>
+<nav class:list={['gnav', { 'is-sticky': stickyNav }]} aria-label="Global"><div class="gnav-inner">
+  <a class="wordmark" href={url()}>{o.name}</a>
+  <ul>
+    <li><a href={url('projects/')} aria-current={cur('projects')}>Projects</a></li>
+    <li><a href={url('blog/')} aria-current={cur('blog')}>Blog</a></li>
+    <li class="hide-sm"><a href={url('#about')}>About</a></li>
+    {resume && <li><a href={resume} {...extAttrs(resume)}>Resume</a></li>}
+    <li class="hide-sm"><a href={url('#contact')}>Contact</a></li>
+    <li><button class="theme-btn" type="button" data-theme-toggle aria-label="Toggle dark mode"></button></li>
+  </ul>
+</div></nav>
+
+<slot />
+
+<footer class="foot"><div class="foot-inner">
+  {notes.length > 0 && <Fragment><ol>{notes.map((t, i) => <li id={`fn-${i + 1}`} set:html={inline(t)} />)}</ol><hr></Fragment>}
+  <div class="foot-row">
+    <span>Copyright © {new Date().getFullYear()} {o.name}. All rights reserved.</span>
+    <span>{o.links.map((l, i) => <Fragment>{i > 0 && <span class="sep">|</span>}<a href={l.url} {...extAttrs(l.url)}>{l.label}</a></Fragment>)}</span>
+  </div>
+</div></footer>
+<script>import '../scripts/site.ts';</script>
+</body>
+</html>

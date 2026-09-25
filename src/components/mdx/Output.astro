@@ -1,0 +1,14 @@
+---
+/* Terminal output: `$` lines are prompts, error lines turn red. Leading
+   indentation in `text` is not preserved by MDX; use a fenced block for that.
+   Usage: <Output title="Output" text={`$ python run.py\nok`} /> */
+import { nextId, outputHTML } from '../../lib/render';
+
+interface Props { text: string; title?: string }
+const { text, title = 'Output' } = Astro.props;
+const id = nextId('out');
+---
+<div class="wide" style="margin-top:14px"><div class="cb">
+  <div class="cb-bar"><span class="cb-name">{title}</span><button class="copy" type="button" data-copy={id}>Copy</button></div>
+  <pre id={id} set:html={outputHTML(text)} />
+</div></div>
