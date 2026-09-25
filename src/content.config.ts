@@ -57,26 +57,36 @@ const projects = defineCollection({
     publish: z.enum(['Draft', 'Publish']).default('Draft'), // only 'Publish' shows on the site (unless SHOW_DRAFTS is on)
     tagline: z.string(),
     summary: z.string().optional(),
+    url: webUrl.optional(), // set to link the card to another site instead of a page here
     links: z.object({ source: webUrl.optional(), demo: webUrl.optional(), video: webUrl.optional() }).optional()
   })
 });
 
-/* One MDX file per post in src/content/posts. A post with a body is published
-   at /writing/<id>/. A post with no body must set `url` and links out instead. */
-const posts = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
-  schema: z.object({
-    type: z.string(), // any label: 'Research note', 'Article', 'Paper', 'Talk'
+/* Writing labels, in the order their tabs appear on the Writing page. */
+export const WRITING_TYPES = ['Research note', 'Paper'] as const;
+
+/* One folder per writing: src/content/writings/<id>/index.mdx, with its images
+   beside it (referenced as ./cover.png). The folder name is the id used in the
+   URL (/writing/<id>/). A writing with no body must set `url` and links out. */
+const writings = defineCollection({
+  loader: glob({
+    pattern: '*/index.{md,mdx}',
+    base: './src/content/writings',
+    generateId: ({ entry }) => entry.split('/')[0]!.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  }),
+  schema: ({ image }) => z.object({
+    type: z.enum(WRITING_TYPES),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD'),
     title: z.string(),
     dek: z.string().optional(),
     readTime: z.string().optional(),
     venue: z.string().optional(),
     url: webUrl.optional(),
-    draft: z.boolean().default(false),
+    publish: z.enum(['Draft', 'Publish']).default('Draft'), // only 'Publish' shows on the site (unless SHOW_DRAFTS is on)
+    cover: z.object({ src: image(), alt: z.string() }).optional(), // image under the title
     project: reference('projects').optional(),
     figure: figure.optional()
   })
 });
 
-export const collections = { projects, posts };
+export const collections = { projects, writings };

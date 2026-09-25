@@ -1,14 +1,15 @@
 ---
 /* One page per YAML file in src/content/projects: copy a file, rename it, and
-   it gets its own page at /projects/<filename>/. */
+   it gets its own page at /projects/<filename>/. Projects that set `url` link
+   out instead and get no page. */
 import Base from '../../layouts/Base.astro';
 import More from '../../components/More.astro';
-import { getProjects, url, type Project } from '../../lib/content';
+import { getProjects, hasPage, url, type Project } from '../../lib/content';
 import { CHEV } from '../../lib/render';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
-  return projects.map(project => ({ params: { id: project.id }, props: { project } }));
+  return projects.filter(hasPage).map(project => ({ params: { id: project.id }, props: { project } }));
 }
 
 interface Props { project: Project }

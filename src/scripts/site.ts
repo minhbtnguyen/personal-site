@@ -33,7 +33,7 @@ function syncThemeUI() {
 }
 darkQuery.addEventListener('change', syncThemeUI);
 
-/* ---------- Filters (Projects by category, Blog by type) ---------- */
+/* ---------- Filters (Projects by category, Writing by type) ---------- */
 function applyFilter(kind: string, value: string) {
   document.querySelectorAll<HTMLElement>(`[data-filter="${kind}"]`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.value === value)));
   // A project lists its categories as "A|B"; it matches if any of them is selected.
@@ -50,9 +50,9 @@ function applyFilter(kind: string, value: string) {
       let n = 0;
       g.querySelectorAll<HTMLElement>('.tl-item').forEach(it => { const ok = match(it); it.hidden = !ok; if (ok) n++; });
       g.hidden = n === 0; total += n;
-      g.querySelector('[data-yc]')!.textContent = `${n} ${n === 1 ? 'post' : 'posts'}`;
+      g.querySelector('[data-yc]')!.textContent = `${n} ${n === 1 ? 'writing' : 'writings'}`;
     });
-    count.textContent = `${total} ${total === 1 ? 'post' : 'posts'}`;
+    count.textContent = `${total} ${total === 1 ? 'writing' : 'writings'}`;
   }
 }
 

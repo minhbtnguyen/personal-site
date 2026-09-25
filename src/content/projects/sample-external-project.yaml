@@ -1,0 +1,11 @@
+# External project template: listed on the Projects page like any other, but
+# clicking it opens `url` in a new tab and no page is built here. Use it for
+# work that already has a home elsewhere (a repo, a lab page, a product site).
+# Copy this file to <your-id>.yaml; remove `url` to give it a page instead.
+name: Sample External Project
+categories: [Evaluation]
+year: 2025
+status: Complete
+publish: Publish
+tagline: A one-line statement of what the project does; the card links to another site.
+url: https://example.com/your-project

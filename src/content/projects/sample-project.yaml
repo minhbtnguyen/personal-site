@@ -9,6 +9,8 @@
 # A Projects tab appears only once some published project uses that layer.
 #
 # publish: Draft (default) keeps it off the live site; set to Publish to show it.
+# url: set it to link the card to another site (e.g. a repo or a lab page)
+#   instead of making a page here; the card still shows and filters as usual.
 name: Sample Project
 categories: [Inference, On-device]
 year: 2026

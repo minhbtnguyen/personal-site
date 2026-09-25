@@ -1,11 +1,11 @@
 ---
-import { postHref, type Post } from '../lib/content';
+import { writingHref, type Writing } from '../lib/content';
 import { chartSVG, extAttrs, fmtLong } from '../lib/render';
 
-interface Props { post: Post }
-const { post } = Astro.props;
-const w = post.data;
-const href = postHref(post);
+interface Props { writing: Writing }
+const { writing } = Astro.props;
+const w = writing.data;
+const href = writingHref(writing);
 const meta = [fmtLong(w.date), w.venue || w.readTime].filter(Boolean).join(' · ');
 const DOC = '<svg viewBox="0 0 300 150" aria-hidden="true"><rect x="98" y="34" width="120" height="130" rx="10" fill="var(--bg)" stroke="var(--hair)" transform="rotate(-8 158 99)"/><rect x="88" y="26" width="120" height="130" rx="10" fill="var(--bg)" stroke="var(--hair)"/><g fill="var(--hair)"><rect x="104" y="46" width="70" height="8" rx="4"/><rect x="104" y="64" width="88" height="6" rx="3"/><rect x="104" y="78" width="80" height="6" rx="3"/><rect x="104" y="92" width="86" height="6" rx="3"/></g></svg>';
 ---

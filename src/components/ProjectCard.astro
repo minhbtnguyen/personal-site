@@ -1,19 +1,24 @@
 ---
-/* Project card, used on the homepage row and the Projects catalog. */
+/* Project card, used on the homepage row and the Projects catalog. Links to the
+   project's page, or to another site when the project sets `url`. */
 import DraftBadge from './DraftBadge.astro';
 import More from './More.astro';
-import { projectUrl, type Project } from '../lib/content';
-import { monogram, statusClass } from '../lib/render';
+import { hasPage, projectHref, type Project } from '../lib/content';
+import { EXT, extAttrs, monogram, statusClass } from '../lib/render';
 
 interface Props { project: Project }
 const { project } = Astro.props;
 const p = project.data;
+const href = projectHref(project), ext = !hasPage(project);
 ---
 <article class="pcard" data-cat={p.categories.join('|')}>
   <div class="pcard-visual ink" set:html={monogram(p.name)} />
   <div class="pcard-body">
     <p class="kicker">{p.categories.join(' · ')}</p>
-    <h2><a href={projectUrl(project.id)}>{p.name}</a><DraftBadge draft={p.publish === 'Draft'} /></h2>
+    <h2>
+      <a href={href} {...extAttrs(href)}>{p.name}{ext && <Fragment><span class="ext" aria-hidden="true" set:html={EXT} /><span class="sr">(opens external site)</span></Fragment>}</a>
+      <DraftBadge draft={p.publish === 'Draft'} />
+    </h2>
     <p class="t">{p.tagline}</p>
     <div class="meta">
       <span class:list={['status', statusClass(p.status)]}><i></i>{[p.status, p.year].filter(Boolean).join(' · ')}</span>

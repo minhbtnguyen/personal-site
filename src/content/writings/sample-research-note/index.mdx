@@ -1,0 +1,59 @@
+---
+# Writing template. Each writing is a folder: copy this whole folder, rename
+# it, and edit index.mdx. The folder name becomes the URL (/writing/<folder>/),
+# and its images live beside index.mdx (./cover.png). Required: type, date,
+# title. Everything else is optional; drop what you don't need.
+#
+# type: Research note or Paper. A Writing tab appears for each label some
+#   published writing uses.
+# publish: Draft (default) keeps it off the live site; set to Publish to show it.
+# cover: image under the title.
+# url: for a paper hosted elsewhere, set url and leave the body empty; the
+#   Writing list then links out instead of making a page.
+# project: the filename (without .yaml) of a related project.
+type: Research note
+date: "2026-09-25"
+title: Sample research note that states the main takeaway
+dek: A one- or two-sentence summary that tells the reader what they will learn.
+readTime: 5 min read
+publish: Publish
+cover:
+  src: ./cover.png
+  alt: Bar chart placeholder with one highlighted bar
+project: sample-project
+---
+
+Open with the question the post answers and why it matters. The body is Markdown: paragraphs, `## headings`, lists, **bold**, `inline code` and [links](https://example.com).
+
+## Images
+
+Put the image in this writing's folder and reference it with a relative path. The build checks the file exists and resizes it for the web.
+
+![Diagram of three boxes: Input, Model, Output](./diagram.png)
+
+> A pull quote states the single most important point in one sentence.
+
+## Code and output
+
+<Code filename="run.py">
+```python
+print("hello")
+```
+</Code>
+
+<Output text={`$ python run.py
+hello`} />
+
+<Note>Small print under a code block, e.g. how to run it.</Note>
+
+## Charts and formulas
+
+<Formula expr="throughput = requests / seconds" caption="Define any formula the results depend on." />
+
+<Figure title="Latency by input size" caption="Describe what the chart shows." chart={{ x: ["1k", "10k", "100k"], yMax: 50, yStep: 10, yLabel: "ms", series: [{ name: "Baseline", tone: "muted", values: [4, 12, 41] }, { name: "Proposed", values: [2, 6, 17] }] }} />
+
+## Conclusion
+
+Summarize the finding and what comes next.[^1]
+
+[^1]: Footnotes work like this.

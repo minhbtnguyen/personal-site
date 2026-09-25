@@ -18,7 +18,7 @@ npm run preview  # serve dist/
 | --- | --- |
 | Name, role, links, resume, photo, headline, about, experience, skills, contact | `src/data/site.ts` |
 | Projects | `src/content/projects/<id>.yaml` (one file per project) |
-| Posts | `src/content/posts/<id>.mdx` (one file per post) |
+| Writings | `src/content/writings/<id>/index.mdx` (one folder per writing, with its images) |
 
 The filename is the id used in URLs: `/projects/<id>/` and `/writing/<id>/`.
 The build fails with a clear message if a file doesn't match the schema in
@@ -38,6 +38,12 @@ project appears under every layer it lists.
 `links: { source, demo, video }` are all optional web links — codebase,
 deployment/live demo, and a demo video.
 
+**Items that live elsewhere.** Not everything needs a page here. Set `url` on
+a project (in its YAML), or leave a writing's body empty and set `url`: it still
+appears on the Projects or Writing page and in its filter tab, but clicking it
+opens that URL in a new tab (marked with an external-link icon) and no page is
+built for it.
+
 `publish: Draft` (the default) keeps a project off the live site; set it to
 `publish: Publish` to show it. Set `SHOW_DRAFTS = true` in `src/data/site.ts`
 to preview drafts locally, marked with a badge.
@@ -45,13 +51,20 @@ to preview drafts locally, marked with a badge.
 **Resume and photo.** Put the files in `public/` and set `owner.resume` /
 `owner.photo` in `src/data/site.ts` to their names (e.g. `resume.pdf`).
 
-**Drafts (posts).** `draft: true` on a post hides it from the build. Set
-`SHOW_DRAFTS = true` in `src/data/site.ts` to preview drafts, marked with a badge.
+**Writings.** `src/content/writings/sample-research-note/` is the template:
+copy the folder, rename it, and edit its `index.mdx`; it gets its own page at
+`/writing/<folder>/`. `type` is `Research note` or `Paper` (set in
+`WRITING_TYPES` in `src/content.config.ts`); a Writing tab appears for each
+label some published writing uses. Like projects, `publish: Draft` (the
+default) keeps it off the site and `publish: Publish` shows it. A writing with
+no body links out to its `url` instead of getting a page (e.g. a paper hosted
+elsewhere). `project: <id>` links a writing to a project.
 
-**Posts.** Write the body in Markdown. `>` renders as a pull quote and `[^1]`
-adds a footnote. A post with no body links out to its `url` instead of getting
-a page (papers, talks). `project: <id>` links a post to a project. These
-components are available without importing:
+Write the body in Markdown. `>` renders as a pull quote and `[^1]` adds a
+footnote. Images go in the writing's own folder: `cover: { src: ./cover.png, alt }` in
+the frontmatter shows one under the title, and `![alt](./file.png)` places one
+in the body. A missing file fails the build; images are resized for the web. These components are available
+without importing:
 
 ~~~mdx
 <Formula expr="throughput = requests / seconds" caption="What it measures." />
@@ -70,8 +83,8 @@ hello`} />
 <Figure title="Latency" chart={{ x: ["1k", "10k"], yMax: 10, yStep: 5, series: [{ name: "A", values: [2, 6] }] }} />
 ~~~
 
-A `figure:` in a post's frontmatter renders as the large chart under the title;
-see `sample-research-note.mdx`.
+A `figure:` in a writing's frontmatter renders as the large chart under the title;
+e.g. `figure: { title, chart: { x, yMax, yStep, series } }`.
 
 ## Deploy
 

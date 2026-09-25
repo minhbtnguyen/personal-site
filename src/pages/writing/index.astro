@@ -3,41 +3,44 @@ import Base from '../../layouts/Base.astro';
 import DraftBadge from '../../components/DraftBadge.astro';
 import PageHero from '../../components/PageHero.astro';
 import Segmented from '../../components/Segmented.astro';
-import { FILTER_MIN, SITE } from '../../data/site';
-import { getPosts, hasBody, postHref, type Post } from '../../lib/content';
+import { SITE } from '../../data/site';
+import { WRITING_TYPES } from '../../content.config';
+import { getWritings, hasBody, writingHref, type Writing } from '../../lib/content';
 import { CHEV, EXT, extAttrs, fmtShort, yearOf } from '../../lib/render';
 
-const posts = await getPosts();
-const types = [...new Set(posts.map(p => p.data.type))];
-const years: { y: number; posts: Post[] }[] = [];
-for (const p of posts) {
+const writings = await getWritings();
+// A tab per label some writing uses, in WRITING_TYPES order.
+const used = new Set(writings.map(w => w.data.type));
+const types = WRITING_TYPES.filter(t => used.has(t));
+const years: { y: number; items: Writing[] }[] = [];
+for (const p of writings) {
   const y = yearOf(p.data.date);
   let g = years.find(x => x.y === y);
-  if (!g) { g = { y, posts: [] }; years.push(g); }
-  g.posts.push(p);
+  if (!g) { g = { y, items: [] }; years.push(g); }
+  g.items.push(p);
 }
-const plural = (n: number) => `${n} ${n === 1 ? 'post' : 'posts'}`;
+const plural = (n: number) => `${n} ${n === 1 ? 'writing' : 'writings'}`;
 ---
-<Base title="Writing" description={SITE.blogPage.intro} active="writing">
+<Base title="Writing" description={SITE.writingPage.intro} active="writing">
 <main>
-  <PageHero title={SITE.blogPage.title} intro={SITE.blogPage.intro} />
+  <PageHero title={SITE.writingPage.title} intro={SITE.writingPage.intro} />
   <div class="toolbar">
-    {types.length > 1 && posts.length >= FILTER_MIN ? <Segmented name="type" values={types} label="Filter posts by type" /> : <span></span>}
-    <span class="count" id="count" aria-live="polite">{plural(posts.length)}</span>
+    {types.length > 0 ? <Segmented name="type" values={types} label="Filter writings by type" /> : <span></span>}
+    <span class="count" id="count" aria-live="polite">{plural(writings.length)}</span>
   </div>
-  <section class="tl" aria-label="All posts">
+  <section class="tl" aria-label="All writings">
     {years.map(g => (
       <div class="tl-year" data-year={g.y}>
-        <h2>{g.y}<small data-yc>{plural(g.posts.length)}</small></h2>
+        <h2>{g.y}<small data-yc>{plural(g.items.length)}</small></h2>
         <ol class="tl-list">
-          {g.posts.map(p => {
-            const w = p.data, ext = !hasBody(p), href = postHref(p);
+          {g.items.map(p => {
+            const w = p.data, ext = !hasBody(p), href = writingHref(p);
             return (
               <li class:list={['tl-item', { ext }]} data-type={w.type}>
                 <a href={href} {...extAttrs(href)}>
                   <div>
                     <p class="tl-meta"><span class="tl-type">{w.type}</span><time datetime={w.date}>{fmtShort(w.date)}</time>{w.venue ? <span>{w.venue}</span> : w.readTime && <span>{w.readTime}</span>}</p>
-                    <h3>{w.title}<DraftBadge draft={w.draft} /></h3>{w.dek && <p>{w.dek}</p>}
+                    <h3>{w.title}<DraftBadge draft={w.publish === 'Draft'} /></h3>{w.dek && <p>{w.dek}</p>}
                   </div>
                   <span class="tl-go" aria-hidden="true" set:html={ext ? EXT : CHEV} />{ext && <span class="sr">(opens external site)</span>}
                 </a>

@@ -1,13 +1,12 @@
 /* ==========================================================================
    SITE-WIDE CONTENT
-   Projects live in src/content/projects/*.yaml and posts in
-   src/content/posts/*.mdx. Everything else on the site is set here.
+   Projects live in src/content/projects/*.yaml and writings in
+   src/content/writings/<id>/index.mdx. Everything else on the site is set here.
    ========================================================================== */
 
 export interface Link { label: string; url: string }
 
-export const SHOW_DRAFTS = false; // set to true locally to preview posts marked `draft: true` and projects marked `publish: Draft`
-export const FILTER_MIN = 5;      // filters appear only when a page has at least this many entries
+export const SHOW_DRAFTS = false; // set to true locally to preview writings and projects marked `publish: Draft`
 export const XP_VISIBLE = 5;      // experience rows shown before the "Show all" button
 
 export const SITE = {
@@ -43,7 +42,7 @@ export const SITE = {
     intro: 'Things I have built, and what I learned.'
   },
 
-  blogPage: {
+  writingPage: {
     title: 'Writing.',
     intro: 'Notes, experiments and papers.'
   },

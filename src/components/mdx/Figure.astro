@@ -1,9 +1,9 @@
 ---
-/* Line chart inside a post body. Takes the same fields as a post's `figure`.
+/* Line chart inside a writing's body. Takes the same fields as a writing's `figure`.
    Usage: <Figure title="Latency" caption="..." chart={{ x: [...], yMax: 100, yStep: 20, series: [...] }} /> */
-import type { Post } from '../../lib/content';
+import type { Writing } from '../../lib/content';
 import { figureHTML } from '../../lib/render';
 
-type Props = NonNullable<Post['data']['figure']>;
+type Props = NonNullable<Writing['data']['figure']>;
 ---
 <Fragment set:html={figureHTML(Astro.props, null, true)} />

@@ -1,36 +1,28 @@
 ---
+/* One page per folder in src/content/writings whose index.mdx has a body: copy
+   a folder, rename it, and it gets its own page at /writing/<folder>/. */
 import { render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import Avatar from '../../components/Avatar.astro';
+import More from '../../components/More.astro';
 import Code from '../../components/mdx/Code.astro';
 import Figure from '../../components/mdx/Figure.astro';
 import Formula from '../../components/mdx/Formula.astro';
 import Note from '../../components/mdx/Note.astro';
 import Output from '../../components/mdx/Output.astro';
-import { SITE } from '../../data/site';
-import { getPosts, getProjects, hasBody, projectUrl, url, type Post } from '../../lib/content';
+import { getProjects, getWritings, hasBody, projectHref, url, type Writing } from '../../lib/content';
 import { CHEV, figureHTML, fmtLong, Footnotes } from '../../lib/render';
 
 export async function getStaticPaths() {
-  const posts = await getPosts();
-  return posts.filter(hasBody).map(post => {
-    const i = posts.indexOf(post);
-    return {
-      params: { id: post.id },
-      props: {
-        post,
-        newer: posts.slice(0, i).reverse().find(hasBody),
-        older: posts.slice(i + 1).find(hasBody)
-      }
-    };
-  });
+  const writings = await getWritings();
+  return writings.filter(hasBody).map(writing => ({ params: { id: writing.id }, props: { writing } }));
 }
 
-interface Props { post: Post; newer?: Post; older?: Post }
-const { post, newer, older } = Astro.props;
-const w = post.data, o = SITE.owner;
+interface Props { writing: Writing }
+const { writing } = Astro.props;
+const w = writing.data;
 const proj = w.project && (await getProjects()).find(p => p.id === w.project!.id);
-const { Content } = await render(post);
+const { Content } = await render(writing);
 
 const notes = new Footnotes();
 const figure = w.figure && figureHTML(w.figure, notes);
@@ -38,28 +30,14 @@ const figure = w.figure && figureHTML(w.figure, notes);
 <Base title={w.title} description={w.dek} active="writing" notes={notes.list}>
 <main>
   <header class="a-head">
-    <a class="crumb" href={url('writing/')}><Fragment set:html={CHEV} /> All posts</a>
-    <p class="a-kind"><span>{w.type}</span><time datetime={w.date}>{fmtLong(w.date)}</time></p>
-    <h1>{w.title}</h1>{w.dek && <p class="a-dek">{w.dek}</p>}
-    <div class="byline">
-      <Avatar class="avatar" />
-      <span class="who"><b>{o.name}</b>{w.readTime && <span>{w.readTime}</span>}</span>
-      {proj && <a class="tag" href={projectUrl(proj.id)}>Part of {proj.data.name} <Fragment set:html={CHEV} /></a>}
-    </div>
+    <a class="crumb" href={url('writing/')}><Fragment set:html={CHEV} /> All writings</a>
+    <p class="a-kind"><span>{w.type}</span><time datetime={w.date}>{fmtLong(w.date)}</time>{w.readTime && <span>{w.readTime}</span>}</p>
+    <h1>{w.title}</h1>
+    {w.dek && <p class="a-dek">{w.dek}</p>}
+    {proj && <div class="p-links"><More href={projectHref(proj)} label={`Part of ${proj.data.name}`} /></div>}
   </header>
+  {w.cover && <Image class="a-cover" src={w.cover.src} alt={w.cover.alt} widths={[740, 1480]} sizes="(max-width: 784px) 100vw, 740px" loading="eager" />}
   {figure && <Fragment set:html={figure} />}
   <div class="body"><Content components={{ Code, Figure, Formula, Note, Output }} /></div>
-  {proj ? (
-    <section class="next-card" aria-label="Related project"><a href={projectUrl(proj.id)}>
-      <div><p>The project behind this post</p><h2>{proj.data.name}</h2><span class="sub">{proj.data.tagline}</span></div>
-      <span class="go">Explore {proj.data.name} <Fragment set:html={CHEV} /></span>
-    </a></section>
-  ) : <div style="height:96px"></div>}
-  {(newer || older) && (
-    <nav class="pn" aria-label="More posts">
-      {newer ? <a href={url(`writing/${newer.id}/`)}><small>Newer post</small><strong>{newer.data.title}</strong></a> : <span></span>}
-      {older && <a class="nx" href={url(`writing/${older.id}/`)}><small>Older post</small><strong>{older.data.title}</strong></a>}
-    </nav>
-  )}
 </main>
 </Base>
