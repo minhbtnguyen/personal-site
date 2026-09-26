@@ -7,11 +7,9 @@ import { themeInit } from './src/lib/theme-init.mjs';
 // Astro does not hash `is:inline` scripts, so the theme script's hash is added here.
 const themeInitHash = `sha256-${createHash('sha256').update(themeInit).digest('base64')}`;
 
-// Served from https://minhbtnguyen.github.io/personal-site/.
-// For a custom domain or a <user>.github.io repo, change `site` and remove `base`.
+// Served from https://minhbtnguyen.com (custom domain; see public/CNAME).
 export default defineConfig({
-  site: 'https://minhbtnguyen.github.io',
-  base: '/personal-site',
+  site: 'https://minhbtnguyen.com',
   // Links are written with a trailing slash; 'ignore' also accepts URLs typed
   // without one, so a mistyped /projects/foo still reaches the custom 404.
   trailingSlash: 'ignore',
