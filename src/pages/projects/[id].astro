@@ -4,7 +4,7 @@
    out instead and get no page. */
 import Base from '../../layouts/Base.astro';
 import { getProjects, hasPage, url, type Project } from '../../lib/content';
-import { CHEV, extAttrs, statusClass } from '../../lib/render';
+import { AWARD, CHEV, extAttrs, statusClass } from '../../lib/render';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -28,8 +28,9 @@ const links = [
     <ul class="tags" aria-label="Categories">{p.categories.map(c => <li>{c}</li>)}</ul>
     <h1>{p.name}</h1>
     <p class="a-dek">{p.tagline}</p>
-    <p class="d-meta"><span>{p.year}</span><span class:list={['status', statusClass(p.status)]}><i></i>{p.status}</span></p>
+    <p class="d-meta"><span>{p.year}</span><span class:list={['status', statusClass(p.status)]}><i></i>{p.status}</span>{p.award && <span class="award"><Fragment set:html={AWARD} />{p.award}</span>}</p>
     {p.summary && <p class="p-summary">{p.summary}</p>}
+    {p.stack && <ul class="chips p-stack" aria-label="Tech stack">{p.stack.map(t => <li>{t}</li>)}</ul>}
     {links.length > 0 && (
       <div class="d-links">{links.map((l, i) => <a class:list={['pill', { 'pill-alt': i > 0 }]} href={l.url} {...extAttrs(l.url)}>{l.label}</a>)}</div>
     )}

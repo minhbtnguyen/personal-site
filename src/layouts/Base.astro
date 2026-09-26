@@ -16,7 +16,8 @@ interface Props {
 }
 const { title, description = SITE.about.statement || SITE.home.intro, active = 'home', stickyNav = true, notes = [], type = 'website' } = Astro.props;
 const o = SITE.owner;
-const pageTitle = title ? `${title} — ${o.name}` : o.role ? `${o.name} — ${o.role}` : o.name;
+// "Minh Nguyen - Projects"; the home page uses the role: "Minh Nguyen - Engineering".
+const pageTitle = [o.name, title ?? o.role].filter(Boolean).join(' - ');
 const cur = (k: string) => (active === k ? 'page' : undefined);
 const resume = o.resume && asset(o.resume);
 const canonical = new URL(Astro.url.pathname, Astro.site);

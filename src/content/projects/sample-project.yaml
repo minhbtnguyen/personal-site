@@ -5,7 +5,7 @@
 #
 # categories: one or more ML stack layers, bottom to top:
 # Foundation, Models, Post-training, Inference, On-device, Platform,
-# Evaluation, Agents & Apps
+# Evaluation, Agents, Apps
 # A Projects tab appears only once some published project uses that layer.
 #
 # publish: Draft (default) keeps it off the live site; set to Publish to show it.
@@ -18,6 +18,11 @@ status: In progress
 publish: Draft
 tagline: A one-line statement of what the project does and why it matters.
 summary: Two or three sentences describing the problem, the approach and the outcome.
+stack: [Python, PyTorch]   # optional tech stack
+# award: Winner, Some Hackathon   # optional
+# cover:                    # optional card image (square-ish), in src/content/projects/images/
+#   src: ./images/your-image.png
+#   alt: What the image shows
 links:
   source: https://github.com/your-username/your-repository
   demo: https://your-deployment-url.example.com

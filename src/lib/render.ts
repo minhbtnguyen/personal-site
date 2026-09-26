@@ -12,6 +12,7 @@ export const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, c => ({ '
 export const inline = (s: string) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
 
 export const CHEV = '<svg class="chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+export const AWARD = '<svg class="award-i" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h8v3a4 4 0 0 1-8 0zM4 3H2v1a2.5 2.5 0 0 0 2.5 2.5M12 3h2v1a2.5 2.5 0 0 1-2.5 2.5M8 9v3M5.5 14h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 export const EXT = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9l6-6M4 3h5v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 /** Email link attributes. The address ships base64-encoded so address

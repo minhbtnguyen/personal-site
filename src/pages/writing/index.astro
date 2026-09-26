@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import DraftBadge from '../../components/DraftBadge.astro';
+import ComingSoon from '../../components/ComingSoon.astro';
 import PageHero from '../../components/PageHero.astro';
 import Segmented from '../../components/Segmented.astro';
 import { SITE } from '../../data/site';
@@ -9,7 +10,7 @@ import { getWritings, hasBody, writingHref, type Writing } from '../../lib/conte
 import { CHEV, EXT, extAttrs, fmtShort, yearOf } from '../../lib/render';
 
 const writings = await getWritings();
-// A tab per label some writing uses, in WRITING_TYPES order.
+// A tab per label some writing uses, in WRITING_TYPES order; hidden until there are two.
 const used = new Set(writings.map(w => w.data.type));
 const types = WRITING_TYPES.filter(t => used.has(t));
 const years: { y: number; items: Writing[] }[] = [];
@@ -24,8 +25,9 @@ const plural = (n: number) => `${n} ${n === 1 ? 'writing' : 'writings'}`;
 <Base title="Writing" description={SITE.writingPage.intro} active="writing">
 <main>
   <PageHero title={SITE.writingPage.title} intro={SITE.writingPage.intro} />
+  {writings.length === 0 ? <div class="tl"><ComingSoon text="Research notes are on the way." /></div> : <Fragment>
   <div class="toolbar">
-    {types.length > 0 ? <Segmented name="type" values={types} label="Filter writings by type" /> : <span></span>}
+    {types.length > 1 ? <Segmented name="type" values={types} label="Filter writings by type" /> : <span></span>}
     <span class="count" id="count" aria-live="polite">{plural(writings.length)}</span>
   </div>
   <section class="tl" aria-label="All writings">
@@ -51,5 +53,6 @@ const plural = (n: number) => `${n} ${n === 1 ? 'writing' : 'writings'}`;
       </div>
     ))}
   </section>
+  </Fragment>}
 </main>
 </Base>

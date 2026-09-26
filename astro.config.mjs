@@ -12,7 +12,9 @@ const themeInitHash = `sha256-${createHash('sha256').update(themeInit).digest('b
 export default defineConfig({
   site: 'https://minhbtnguyen.github.io',
   base: '/personal-site',
-  trailingSlash: 'always',
+  // Links are written with a trailing slash; 'ignore' also accepts URLs typed
+  // without one, so a mistyped /projects/foo still reaches the custom 404.
+  trailingSlash: 'ignore',
   integrations: [mdx()],
   // Fetch internal pages as their links scroll into view, so taps open them
   // instantly. Pages are small; Astro skips this on data-saver/slow connections.

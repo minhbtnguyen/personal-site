@@ -31,7 +31,7 @@ video. `featured: true` puts a project on the homepage (up to three).
 `categories` is a list of one or more ML stack layers, defined in
 `src/content.config.ts` and listed there bottom to top: `Foundation`,
 `Models`, `Post-training`, `Inference`, `On-device`, `Platform`, `Evaluation`,
-`Agents & Apps` — e.g. `categories: [Inference, On-device]`. The Projects page
+`Agents`, `Apps` — e.g. `categories: [Inference, On-device]`. The Projects page
 shows a tab only for layers some published project uses, in that order; a
 project appears under every layer it lists.
 
@@ -57,11 +57,11 @@ iMessage show for any page. Replace it if you change your name or headline.
 
 **Writings.** `src/content/writings/sample-research-note/` is the template:
 copy the folder, rename it, and edit its `index.mdx`; it gets its own page at
-`/writing/<folder>/`. `type` is `Research note` or `Paper` (set in
-`WRITING_TYPES` in `src/content.config.ts`); a Writing tab appears for each
-label some published writing uses. Like projects, `publish: Draft` (the
+`/writing/<folder>/`. `type` is `Research note` (labels are set in
+`WRITING_TYPES` in `src/content.config.ts`; papers live on Google Scholar).
+Filter tabs appear once two or more labels are in use. Like projects, `publish: Draft` (the
 default) keeps it off the site and `publish: Publish` shows it. A writing with
-no body links out to its `url` instead of getting a page (e.g. a paper hosted
+no body links out to its `url` instead of getting a page (e.g. a note hosted
 elsewhere). `project: <id>` links a writing to a project.
 
 Write the body in Markdown. `>` renders as a pull quote and `[^1]` adds a

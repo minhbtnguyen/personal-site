@@ -1,0 +1,13 @@
+name: "BYOB: Bring Your Own Bike"
+categories: [Agents, Models, Apps]
+year: 2026
+status: Live
+publish: Publish
+tagline: "Agentic mobility pipeline on the Microsoft Geolife GPS dataset that uses LLM-powered agents to simulate how Apple ESG nudges shift commuter behavior."
+stack: [Python, Streamlit, LightGBM, Claude API, Docker]
+cover:
+  src: ./images/byob-card.webp   # square crop of byob.webp (the full screenshot)
+  alt: Social network graph of commuters colored by commute mode
+url: https://r5ryy5xzgxhg4blhppufsw.streamlit.app/
+links:
+  source: https://github.com/minhbtnguyen/byob

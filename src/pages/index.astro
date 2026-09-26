@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Avatar from '../components/Avatar.astro';
 import More from '../components/More.astro';
+import ComingSoon from '../components/ComingSoon.astro';
 import WritingCard from '../components/WritingCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { SITE, SKILLS_VISIBLE_PHONE, XP_VISIBLE, XP_VISIBLE_PHONE } from '../data/site';
@@ -64,12 +65,12 @@ const actions = [
     </div></section>
   )}
 
-  {writings.length > 0 && (
-    <section class="section alt" id="writing" aria-labelledby="w-title"><div class="container">
-      <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2><More href={url('writing/')} label="All writings" /></div>
-      <div class="cards">{writings.slice(0, 3).map(w => <WritingCard writing={w} />)}</div>
-    </div></section>
-  )}
+  <section class="section alt" id="writing" aria-labelledby="w-title"><div class="container">
+    <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2>{writings.length > 0 && <More href={url('writing/')} label="All writings" />}</div>
+    {writings.length > 0
+      ? <div class="cards">{writings.slice(0, 3).map(w => <WritingCard writing={w} />)}</div>
+      : <ComingSoon text="Research notes are on the way." />}
+  </div></section>
 
   <section class="section about" id="about" aria-label="About"><div class="container">
     <div class="about-grid">

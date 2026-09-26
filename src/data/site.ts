@@ -47,11 +47,11 @@ export const SITE = {
 
   writingPage: {
     title: 'Writing.',
-    intro: 'Notes, experiments and papers.'
+    intro: 'Research notes and experiments.'
   },
 
   about: {
-    statement: 'At BlackRock since 2024, building LLM and agentic systems for financial workflows. Before that: Tesla, Homebase (YC), Shield AI and ML research labs.', // optional; set to '' to remove
+    statement: 'At BlackRock since 2024, building ML and agentic systems for finance. Before that: Tesla, Homebase (YC), Shield AI and ML research labs.', // optional; set to '' to remove
     link: { label: 'Full experience on LinkedIn', url: 'https://www.linkedin.com/in/minhbtnguyen/' } as Link | undefined
   },
 
