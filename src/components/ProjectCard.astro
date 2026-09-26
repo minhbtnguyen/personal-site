@@ -26,7 +26,7 @@ const cats = p.categories, shown = cats.slice(0, 2).join(' · ') + (cats.length 
       <DraftBadge draft={p.publish === 'Draft'} />
     </h2>
     <p class="t">{p.tagline}</p>
-    {p.stack && <p class="pcard-stack">{p.stack.join(' · ')}</p>}
+    {p.stack && <p class="pcard-stack">{p.stack.map((t, i) => <Fragment>{i > 0 && ' '}<span>{t}</span></Fragment>)}</p>}
     <div class="meta">
       <span class:list={['status', statusClass(p.status)]}><i></i>{[p.status, p.year].filter(Boolean).join(' · ')}</span>
       {p.award && <span class="award"><Fragment set:html={AWARD} /><span class="award-t">{p.award}</span></span>}
