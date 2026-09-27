@@ -75,13 +75,16 @@ export const SITE = {
 
   /* Grouped list in the About section, beside Experience. Empty the list to hide it. */
   skillsTitle: 'Skills',
+  /* Highlighted in the list: the core skills for ML engineering roles. Names
+     must match items below exactly. */
+  keySkills: ['PyTorch', 'MLflow', 'LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangChain', 'LangGraph', 'Vector Databases', 'Python', 'SQL', 'FastAPI', 'Azure', 'Docker', 'Kubernetes', 'CI/CD', 'Grafana', 'Snowflake', 'Airflow'],
   skills: [
     { group: 'AI / ML', items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transfer Learning', 'Time Series Forecasting', 'MLflow', 'SHAP'] },
     { group: 'Agentic AI', items: ['LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangGraph', 'LangChain', 'Embeddings', 'Vector Databases'] },
-    { group: 'Backend', items: ['Python', 'Go', 'Java', 'SQL', 'FastAPI', 'RESTful APIs', 'Celery', 'Flask', 'Pandas', 'Git', 'Streamlit', 'Dash'] },
-    { group: 'Cloud & DevOps', items: ['AWS', 'GCP', 'Azure', 'Kubernetes', 'Docker', 'CI/CD', 'Grafana', 'Jenkins', 'Azure DevOps', 'RockAI'] },
+    { group: 'Backend', items: ['Python', 'Go', 'Java', 'SQL', 'FastAPI', 'Celery', 'Flask', 'Pandas', 'Git', 'Streamlit', 'Dash'] },
+    { group: 'Cloud & DevOps', items: ['AWS', 'GCP', 'Azure', 'Kubernetes', 'Docker', 'CI/CD', 'Grafana', 'Jenkins', 'RockAI'] },
     { group: 'Data', items: ['Snowflake', 'Airflow', 'PostgreSQL', 'Redis', 'MySQL', 'MSSQL', 'InfluxDB', 'Tableau', 'Power BI'] },
-    { group: 'AI Tooling', items: ['Claude Code', 'Cursor', 'GitHub Copilot', 'Codex', 'Prompt Engineering', 'Graphify', 'Obsidian'] }
+    { group: 'AI Tooling', items: ['Claude Code', 'Cursor', 'GitHub Copilot', 'Codex', 'Graphify', 'Obsidian'] }
   ],
 
   contact: {
