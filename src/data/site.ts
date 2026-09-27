@@ -34,8 +34,8 @@ export const SITE = {
   },
 
   home: {
-    headline: 'ML systems, from zero to production.',
-    intro: 'Machine Learning · Agentic AI · MLOps · Research',
+    headline: 'Production ML, end to end.',
+    intro: 'Research · Agentic AI · MLOps · Product',
     featuredTitle: 'Projects.',
     latestTitle: 'Writing.'
   },
