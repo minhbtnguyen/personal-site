@@ -184,6 +184,10 @@ html.seen .rise{animation:none} /* only the first page of a visit animates in */
 .sk-group h4{margin:0 0 10px;font-size:17px;font-weight:600;letter-spacing:-.015em}
 .sk .chips{gap:6px}
 .sk .chips li{font-size:13px;padding:6px 12px}
+/* Core skills: teal-tinted chip, plus a matching key under the Skills title */
+.sk .chips li.key{background:color-mix(in srgb,var(--series) 12%,transparent);color:var(--series);font-weight:500}
+.sk-note{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:13px;color:var(--text-2)}
+.sk-note i{width:12px;height:12px;border-radius:4px;background:color-mix(in srgb,var(--series) 22%,transparent)}
 
 /* Contact */
 .contact{text-align:center;padding:clamp(80px,10vw,128px) 22px}
@@ -465,7 +469,7 @@ sup a,.data-footnote-backref{display:inline-block;padding:14px 10px;margin:-14px
   .xp-more.phone-only{display:inline-flex}
   [data-collapsed] > [data-extra-phone]{display:none}
   .xp-what .xp-team,.xp-what .xp-loc{display:none} /* role, company, dates only */
-  .sk .chips{justify-content:center}
+  .sk .chips,.sk-note{justify-content:center}
 
   .page-hero .container{text-align:center}
   .page-intro{margin-inline:auto}
