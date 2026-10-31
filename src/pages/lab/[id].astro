@@ -1,6 +1,6 @@
 ---
-/* One page per folder in src/content/writings whose index.mdx has a body: copy
-   a folder, rename it, and it gets its own page at /writing/<folder>/. */
+/* One page per folder in src/content/experiments whose index.mdx has a body: copy
+   a folder, rename it, and it gets its own page at /lab/<folder>/. */
 import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
@@ -9,27 +9,27 @@ import Figure from '../../components/mdx/Figure.astro';
 import Formula from '../../components/mdx/Formula.astro';
 import Note from '../../components/mdx/Note.astro';
 import Output from '../../components/mdx/Output.astro';
-import { getProjects, getWritings, hasBody, projectHref, url, type Writing } from '../../lib/content';
+import { getProjects, getExperiments, hasBody, projectHref, url, type Experiment } from '../../lib/content';
 import { CHEV, extAttrs, figureHTML, fmtLong, Footnotes } from '../../lib/render';
 
 export async function getStaticPaths() {
-  const writings = await getWritings();
-  return writings.filter(hasBody).map(writing => ({ params: { id: writing.id }, props: { writing } }));
+  const experiments = await getExperiments();
+  return experiments.filter(hasBody).map(experiment => ({ params: { id: experiment.id }, props: { experiment } }));
 }
 
-interface Props { writing: Writing }
-const { writing } = Astro.props;
-const w = writing.data;
+interface Props { experiment: Experiment }
+const { experiment } = Astro.props;
+const w = experiment.data;
 const proj = w.project && (await getProjects()).find(p => p.id === w.project!.id);
-const { Content } = await render(writing);
+const { Content } = await render(experiment);
 
 const notes = new Footnotes();
 const figure = w.figure && figureHTML(w.figure, notes);
 ---
-<Base title={w.title} description={w.dek} active="writing" notes={notes.list} type="article">
+<Base title={w.title} description={w.dek} active="lab" notes={notes.list} type="article">
 <main>
   <header class="a-head">
-    <a class="crumb" href={url('writing/')}><Fragment set:html={CHEV} /> All writings</a>
+    <a class="crumb" href={url('lab/')}><Fragment set:html={CHEV} /> All experiments</a>
     <ul class="tags" aria-label="Type"><li>{w.type}</li></ul>
     <h1>{w.title}</h1>
     {w.dek && <p class="a-dek">{w.dek}</p>}

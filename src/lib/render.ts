@@ -1,10 +1,10 @@
 /* HTML/SVG generators ported from the original template. They return markup
    strings, rendered in components with `set:html`. */
-import type { Writing } from './content';
+import type { Experiment } from './content';
 import { SITE } from '../data/site';
 import { isExternal, url } from './content';
 
-type Figure = NonNullable<Writing['data']['figure']>;
+type Figure = NonNullable<Experiment['data']['figure']>;
 type Chart = Figure['chart'];
 
 export const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));

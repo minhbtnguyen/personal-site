@@ -9,10 +9,10 @@ import { themeInit } from '../lib/theme-init.mjs';
 interface Props {
   title?: string;
   description?: string;
-  active?: 'home' | 'projects' | 'writing';
+  active?: 'home' | 'projects' | 'lab';
   stickyNav?: boolean;
   notes?: string[];
-  type?: 'website' | 'article'; // Open Graph type: writings are articles
+  type?: 'website' | 'article'; // Open Graph type: experiments are articles
 }
 const { title, description = SITE.about.statement || SITE.home.intro, active = 'home', stickyNav = true, notes = [], type = 'website' } = Astro.props;
 const o = SITE.owner;
@@ -58,7 +58,7 @@ const ogImage = new URL(url('og.png'), Astro.site);
   <a class="wordmark" href={url()}>{o.name}</a>
   <ul>
     <li><a href={url('projects/')} aria-current={cur('projects')}>Projects</a></li>
-    <li><a href={url('writing/')} aria-current={cur('writing')}>Writing</a></li>
+    <li><a href={url('lab/')} aria-current={cur('lab')}>Lab</a></li>
     <li class="hide-sm"><a href={url('#about')}>About</a></li>
     {resume && <li><a href={resume} {...extAttrs(resume)}>Resume</a></li>}
     <li class="hide-sm"><a href={url('#contact')}>Contact</a></li>

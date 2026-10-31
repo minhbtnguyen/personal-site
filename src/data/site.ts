@@ -1,12 +1,12 @@
 /* ==========================================================================
    SITE-WIDE CONTENT
-   Projects live in src/content/projects/*.yaml and writings in
-   src/content/writings/<id>/index.mdx. Everything else on the site is set here.
+   Projects live in src/content/projects/*.yaml and experiments in
+   src/content/experiments/<id>/index.mdx. Everything else on the site is set here.
    ========================================================================== */
 
 export interface Link { label: string; url: string }
 
-export const SHOW_DRAFTS = false; // set to true locally to preview writings and projects marked `publish: Draft`
+export const SHOW_DRAFTS = false; // set to true locally to preview experiments and projects marked `publish: Draft`
 export const XP_VISIBLE = 5;      // experience rows shown before the "Show all" button
 export const XP_VISIBLE_PHONE = 3;     // the same, on phones (a shorter home page)
 export const SKILLS_VISIBLE_PHONE = 2; // skill groups shown on phones before "Show all skills"
@@ -37,7 +37,7 @@ export const SITE = {
     headline: 'Production ML, end to end.',
     intro: 'Research · Agentic AI · MLOps · Product',
     featuredTitle: 'Projects.',
-    latestTitle: 'Writing.'
+    latestTitle: 'Lab.'
   },
 
   projectsPage: {
@@ -45,9 +45,9 @@ export const SITE = {
     intro: 'Things I have built, and what I learned.'
   },
 
-  writingPage: {
-    title: 'Writing.',
-    intro: 'Research notes and experiments.'
+  labPage: {
+    title: 'Lab.',
+    intro: 'Experiments log.'
   },
 
   about: {
@@ -60,13 +60,13 @@ export const SITE = {
      automatically, most recent first. Empty the list to hide the section. */
   experienceTitle: 'Experience',
   experience: [
-    { role: 'Machine Learning Engineer', org: 'BlackRock', team: 'Platform Engineering', location: 'Philadelphia, PA', start: '2024-05', end: '' },
-    { role: 'Machine Learning Engineer Intern', org: 'Tesla', team: 'Automation & Data Systems', location: 'Fremont, CA', start: '2024-01', end: '2024-05' },
+    { role: 'AI & ML Engineer II', org: 'BlackRock', team: 'Platform Engineering', location: 'Philadelphia, PA', start: '2024-05', end: '' },
+    { role: 'Software Engineer', org: 'Tesla', team: 'Automation & Data Systems', location: 'Fremont, CA', start: '2024-01', end: '2024-05' },
     { role: 'Graduate Research Assistant', org: 'Virginia Tech', team: 'Sanghani Center for AI & Data Analytics', location: 'Falls Church, VA', start: '2023-04', end: '2023-12' },
-    { role: 'Software Engineer Intern', org: 'Homebase (YC W21)', location: 'Ho Chi Minh City, Vietnam', start: '2023-06', end: '2023-09' },
+    { role: 'Software Engineer', org: 'Homebase (YC W21)', location: 'Ho Chi Minh City, Vietnam', start: '2023-06', end: '2023-09' },
     { role: 'Graduate Research Assistant', org: 'Virginia Tech', team: 'Commonwealth Cyber Initiative', location: 'Arlington, VA', start: '2021-05', end: '2022-08' },
     { role: 'Research Assistant', org: 'Virginia Tech', team: 'Terrestrial Robotics Engineering & Controls Lab', location: 'Blacksburg, VA', start: '2021-09', end: '2022-05' },
-    { role: 'Machine Learning Engineer Intern', org: 'Shield AI', team: 'Gamebreaker', location: 'Alexandria, VA', start: '2021-05', end: '2021-08' },
+    { role: 'Machine Learning Engineer', org: 'Shield AI', team: 'Gamebreaker', location: 'Alexandria, VA', start: '2021-05', end: '2021-08' },
     { role: 'Research Assistant', org: 'William & Mary', team: 'geoLab', location: 'Williamsburg, VA', start: '2020-09', end: '2021-05' },
     { role: 'Research Assistant', org: 'Virginia Tech', team: 'Hybrid Electric Vehicle Team', location: 'Blacksburg, VA', start: '2020-09', end: '2021-05' },
     { role: 'Teaching Assistant', org: 'Virginia Tech', team: 'ECE Department', location: 'Blacksburg, VA', start: '2020-09', end: '2021-05' },
@@ -77,14 +77,15 @@ export const SITE = {
   skillsTitle: 'Skills',
   /* Highlighted in the list: the core skills for ML engineering roles. Names
      must match items below exactly. */
-  keySkills: ['PyTorch', 'MLflow', 'LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangChain', 'LangGraph', 'Vector Databases', 'Python', 'SQL', 'FastAPI', 'Azure', 'Docker', 'Kubernetes', 'CI/CD', 'Grafana', 'Snowflake', 'Airflow'],
+  keySkills: ['PyTorch', 'MLflow', 'ML Inference', 'ONNX Runtime', 'Triton Inference Server', 'vLLM', 'LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangChain', 'LangGraph', 'Python', 'C++', 'SQL', 'FastAPI', 'Azure', 'Docker', 'Kubernetes', 'CI/CD', 'Grafana', 'Snowflake', 'Airflow'],
   skills: [
-    { group: 'AI / ML', items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transfer Learning', 'Time Series Forecasting', 'MLflow', 'SHAP'] },
-    { group: 'Agentic AI', items: ['LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangGraph', 'LangChain', 'Embeddings', 'Vector Databases'] },
-    { group: 'Backend', items: ['Python', 'Go', 'Java', 'SQL', 'FastAPI', 'Celery', 'Flask', 'Pandas', 'Git', 'Streamlit', 'Dash'] },
-    { group: 'Cloud & DevOps', items: ['AWS', 'GCP', 'Azure', 'Kubernetes', 'Docker', 'CI/CD', 'Grafana', 'Jenkins', 'RockAI'] },
-    { group: 'Data', items: ['Snowflake', 'Airflow', 'PostgreSQL', 'Redis', 'MySQL', 'MSSQL', 'InfluxDB', 'Tableau', 'Power BI'] },
-    { group: 'AI Tooling', items: ['Claude Code', 'Cursor', 'GitHub Copilot', 'Codex', 'Graphify', 'Obsidian'] }
+    { group: 'AI / ML', items: ['PyTorch', 'TensorFlow', 'MLflow', 'ML Inference', 'ONNX Runtime', 'TensorRT', 'Triton Inference Server', 'vLLM', 'Quantization'] },
+    { group: 'Agentic AI', items: ['LLMs', 'RAG', 'Multi-Agent Orchestration', 'LangGraph', 'LangChain'] },
+    { group: 'Backend', items: ['Python', 'Go', 'C++', 'Rust', 'SQL', 'FastAPI', 'Celery', 'Flask'] },
+    { group: 'Frontend', items: ['Streamlit', 'Dash', 'ReactJS'] },
+    { group: 'Cloud & DevOps', items: ['AWS', 'Azure', 'ADK', 'Kubernetes', 'Docker', 'CI/CD', 'Grafana', 'Jenkins'] },
+    { group: 'Data', items: ['Snowflake', 'Airflow', 'PostgreSQL', 'Redis', 'MySQL', 'MSSQL', 'InfluxDB', 'Power BI'] },
+    { group: 'AI Tooling', items: ['Claude Code', 'GitHub Copilot'] }
   ],
 
   contact: {

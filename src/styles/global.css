@@ -128,7 +128,7 @@ html.seen .rise{animation:none} /* only the first page of a visit animates in */
 @keyframes fade{to{opacity:0}}
 
 /* ==========================================================================
-   Home: writing cards and project row
+   Home: experiment cards and project row
    ========================================================================== */
 /* Project list (home and Projects page): one horizontal card per row */
 .row3{display:grid;grid-template-columns:1fr;gap:16px}
@@ -197,7 +197,7 @@ html.seen .rise{animation:none} /* only the first page of a visit animates in */
 .contact .tile-links{margin-top:18px}
 
 /* ==========================================================================
-   Index pages: Projects and Writing
+   Index pages: Projects and Experiment
    ========================================================================== */
 .page-hero{padding:clamp(64px,9vw,112px) 22px clamp(36px,4vw,52px)}
 .page-hero .container{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:end}
@@ -277,7 +277,7 @@ html.seen .rise{animation:none} /* only the first page of a visit animates in */
 .glyph .on .face{fill:color-mix(in srgb,var(--series) 22%,var(--panel));stroke:var(--series)}
 .glyph .on .side{fill:color-mix(in srgb,var(--series) 55%,var(--panel))}
 
-/* Writing timeline */
+/* Experiment timeline */
 .tl{max-width:calc(var(--content) + 44px);margin:0 auto;padding:0 22px clamp(88px,10vw,130px)}
 .tl-year{display:grid;grid-template-columns:170px 1fr;gap:40px;border-top:1px solid var(--hair);padding-top:36px}
 .tl-year h2{position:sticky;top:calc(env(safe-area-inset-top,0px) + 68px);align-self:start;margin:0;font-size:clamp(40px,5vw,56px);font-weight:600;letter-spacing:-.015em;line-height:1}
@@ -298,7 +298,7 @@ html.seen .rise{animation:none} /* only the first page of a visit animates in */
 .tl-go svg{width:12px;height:12px}
 
 /* ==========================================================================
-   Project and writing pages: header, cover, body
+   Project and experiment pages: header, cover, body
    ========================================================================== */
 .a-head{max-width:740px;margin:0 auto;padding:clamp(56px,8vw,96px) 22px 40px}
 .a-head .crumb{margin:-12px 0 12px}

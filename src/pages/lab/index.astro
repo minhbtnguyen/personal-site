@@ -5,38 +5,38 @@ import ComingSoon from '../../components/ComingSoon.astro';
 import PageHero from '../../components/PageHero.astro';
 import Segmented from '../../components/Segmented.astro';
 import { SITE } from '../../data/site';
-import { WRITING_TYPES } from '../../content.config';
-import { getWritings, hasBody, writingHref, type Writing } from '../../lib/content';
+import { EXPERIMENT_TYPES } from '../../content.config';
+import { getExperiments, hasBody, experimentHref, type Experiment } from '../../lib/content';
 import { CHEV, EXT, extAttrs, fmtShort, yearOf } from '../../lib/render';
 
-const writings = await getWritings();
-// A tab per label some writing uses, in WRITING_TYPES order; hidden until there are two.
-const used = new Set(writings.map(w => w.data.type));
-const types = WRITING_TYPES.filter(t => used.has(t));
-const years: { y: number; items: Writing[] }[] = [];
-for (const p of writings) {
+const experiments = await getExperiments();
+// A tab per label some experiment uses, in EXPERIMENT_TYPES order; hidden until there are two.
+const used = new Set(experiments.map(w => w.data.type));
+const types = EXPERIMENT_TYPES.filter(t => used.has(t));
+const years: { y: number; items: Experiment[] }[] = [];
+for (const p of experiments) {
   const y = yearOf(p.data.date);
   let g = years.find(x => x.y === y);
   if (!g) { g = { y, items: [] }; years.push(g); }
   g.items.push(p);
 }
-const plural = (n: number) => `${n} ${n === 1 ? 'writing' : 'writings'}`;
+const plural = (n: number) => `${n} ${n === 1 ? 'experiment' : 'experiments'}`;
 ---
-<Base title="Writing" description={SITE.writingPage.intro} active="writing">
+<Base title="Lab" description={SITE.labPage.intro} active="lab">
 <main>
-  <PageHero title={SITE.writingPage.title} intro={SITE.writingPage.intro} />
-  {writings.length === 0 ? <div class="tl"><ComingSoon text="Research notes are on the way." /></div> : <Fragment>
+  <PageHero title={SITE.labPage.title} intro={SITE.labPage.intro} />
+  {experiments.length === 0 ? <div class="tl"><ComingSoon text="Experiments are on the way." /></div> : <Fragment>
   <div class="toolbar">
-    {types.length > 1 ? <Segmented name="type" values={types} label="Filter writings by type" /> : <span></span>}
-    <span class="count" id="count" aria-live="polite">{plural(writings.length)}</span>
+    {types.length > 1 ? <Segmented name="type" values={types} label="Filter experiments by type" /> : <span></span>}
+    <span class="count" id="count" aria-live="polite">{plural(experiments.length)}</span>
   </div>
-  <section class="tl" aria-label="All writings">
+  <section class="tl" aria-label="All experiments">
     {years.map(g => (
       <div class="tl-year" data-year={g.y}>
         <h2>{g.y}<small data-yc>{plural(g.items.length)}</small></h2>
         <ol class="tl-list">
           {g.items.map(p => {
-            const w = p.data, ext = !hasBody(p), href = writingHref(p);
+            const w = p.data, ext = !hasBody(p), href = experimentHref(p);
             return (
               <li class:list={['tl-item', { ext }]} data-type={w.type}>
                 <a href={href} {...extAttrs(href)}>

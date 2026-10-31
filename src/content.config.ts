@@ -68,20 +68,20 @@ const projects = defineCollection({
   })
 });
 
-/* Writing labels, in the order their tabs appear on the Writing page. */
-export const WRITING_TYPES = ['Research note'] as const; // papers live on Google Scholar
+/* Experiment labels, in the order their tabs appear on the Experiment page. */
+export const EXPERIMENT_TYPES = ['Experiment'] as const; // papers live on Google Scholar
 
-/* One folder per writing: src/content/writings/<id>/index.mdx, with its images
+/* One folder per experiment: src/content/experiments/<id>/index.mdx, with its images
    beside it (referenced as ./cover.png). The folder name is the id used in the
-   URL (/writing/<id>/). A writing with no body must set `url` and links out. */
-const writings = defineCollection({
+   URL (/lab/<id>/). An experiment with no body must set `url` and links out. */
+const experiments = defineCollection({
   loader: glob({
     pattern: '*/index.{md,mdx}',
-    base: './src/content/writings',
+    base: './src/content/experiments',
     generateId: ({ entry }) => entry.split('/')[0]!.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   }),
   schema: ({ image }) => z.object({
-    type: z.enum(WRITING_TYPES),
+    type: z.enum(EXPERIMENT_TYPES),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD'),
     title: z.string(),
     dek: z.string().optional(),
@@ -95,4 +95,4 @@ const writings = defineCollection({
   })
 });
 
-export const collections = { projects, writings };
+export const collections = { projects, experiments };

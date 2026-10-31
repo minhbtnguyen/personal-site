@@ -1,9 +1,9 @@
 ---
-/* Line chart inside a writing's body. Takes the same fields as a writing's `figure`.
+/* Line chart inside an experiment's body. Takes the same fields as an experiment's `figure`.
    Usage: <Figure title="Latency" caption="..." chart={{ x: [...], yMax: 100, yStep: 20, series: [...] }} /> */
-import type { Writing } from '../../lib/content';
+import type { Experiment } from '../../lib/content';
 import { figureHTML } from '../../lib/render';
 
-type Props = NonNullable<Writing['data']['figure']>;
+type Props = NonNullable<Experiment['data']['figure']>;
 ---
 <Fragment set:html={figureHTML(Astro.props, null, true)} />

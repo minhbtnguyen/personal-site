@@ -3,10 +3,10 @@ import Base from '../layouts/Base.astro';
 import Avatar from '../components/Avatar.astro';
 import More from '../components/More.astro';
 import ComingSoon from '../components/ComingSoon.astro';
-import WritingCard from '../components/WritingCard.astro';
+import ExperimentCard from '../components/ExperimentCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { SITE, SKILLS_VISIBLE_PHONE, XP_VISIBLE, XP_VISIBLE_PHONE } from '../data/site';
-import { asset, getProjects, getWritings, url } from '../lib/content';
+import { asset, getProjects, getExperiments, url } from '../lib/content';
 import { extAttrs, mailAttrs, tokenize } from '../lib/render';
 
 const DL = '<svg class="dl" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v8M3.5 6.5L7 10l3.5-3.5M2 12.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -14,7 +14,7 @@ const DL = '<svg class="dl" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1
 const h = SITE.home, o = SITE.owner;
 const resume = o.resume && asset(o.resume);
 const projects = await getProjects();
-const writings = await getWritings();
+const experiments = await getExperiments();
 
 let featured = projects.filter(p => p.data.featured).slice(0, 3);
 if (!featured.length) featured = projects.slice(0, 3);
@@ -41,7 +41,7 @@ const contactLinks = (resume ? [{ label: 'Resume', url: resume }] : []).concat(o
 // Hero actions only for sections that have something in them; the first is the filled button.
 const actions = [
   projects.length > 0 && { href: url('projects/'), label: 'View projects' },
-  writings.length > 0 && { href: url('writing/'), label: 'Read my writing' }
+  experiments.length > 0 && { href: url('lab/'), label: 'See my experiments' }
 ].filter((a): a is { href: string; label: string } => Boolean(a));
 ---
 <Base active="home">
@@ -67,11 +67,11 @@ const actions = [
     </div></section>
   )}
 
-  <section class="section alt" id="writing" aria-labelledby="w-title"><div class="container">
-    <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2>{writings.length > 0 && <More href={url('writing/')} label="All writings" />}</div>
-    {writings.length > 0
-      ? <div class="cards">{writings.slice(0, 3).map(w => <WritingCard writing={w} />)}</div>
-      : <ComingSoon text="Research notes are on the way." />}
+  <section class="section alt" id="experiment" aria-labelledby="w-title"><div class="container">
+    <div class="head-row"><h2 class="h-xl" id="w-title">{h.latestTitle}</h2>{experiments.length > 0 && <More href={url('lab/')} label="All experiments" />}</div>
+    {experiments.length > 0
+      ? <div class="cards">{experiments.slice(0, 3).map(w => <ExperimentCard experiment={w} />)}</div>
+      : <ComingSoon text="Experiments are on the way." />}
   </div></section>
 
   <section class="section about" id="about" aria-label="About"><div class="container">
