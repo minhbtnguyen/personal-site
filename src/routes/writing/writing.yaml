@@ -1,0 +1,22 @@
+# TODO: replace with your own writing. Each section maps to a heading on /writing.
+technology:
+  - title: Example Blog Post
+    date: 2026-01-01
+    summary: >
+      One-sentence summary shown in serif italics under the title.
+    link: https://example.com
+
+notes:
+  - title: Example Notes
+    date: 2025-06-01
+    summary: >
+      Lecture notes or a tutorial. Put PDFs in static/assets/pdf/ and link as
+      /assets/pdf/File.pdf.
+    link: https://example.com
+
+papers:
+  - title: Example Paper
+    date: 2024-12-01
+    summary: >
+      Academic paper or course project.
+    link: https://example.com
