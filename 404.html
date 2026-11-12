@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-security-policy" content="">
+		<link rel="modulepreload" href="/_app/immutable/entry/start.351a8cbe.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.071d84af.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/singletons.ab2c41e6.js">
+		<link rel="modulepreload" href="/_app/immutable/entry/app.18cc65f5.js">
+  </head>
+  <body>
+    <div>
+			<script>
+				{
+					__sveltekit_ecfjrn = {
+						env: {},
+						base: "",
+						element: document.currentScript.parentElement
+					};
+
+					Promise.all([
+						import("/_app/immutable/entry/start.351a8cbe.js"),
+						import("/_app/immutable/entry/app.18cc65f5.js")
+					]).then(([kit, app]) => {
+						kit.start(app, __sveltekit_ecfjrn.element);
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
