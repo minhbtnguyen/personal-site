@@ -1,6 +1,7 @@
 <script lang="ts">
   import Seo from "$lib/components/Seo.svelte";
   import Entry from "./Entry.svelte";
+  import SectionHeading from "./SectionHeading.svelte";
 
   const MONTHS = [
     "Jan",
@@ -24,12 +25,20 @@
     return `${MONTHS[m - 1]} ${y}`;
   }
 
-  /** LinkedIn-style tenure: inclusive month count, e.g. "2 yrs 7 mos". */
-  function tenure(from: string, to?: string): string {
-    const [y1, m1] = parse(from);
-    const now = new Date();
-    const [y2, m2] = to ? parse(to) : [now.getFullYear(), now.getMonth() + 1];
-    const total = (y2 - y1) * 12 + (m2 - m1) + 1;
+  type Span = { start: string; end?: string };
+
+  /** Month index (years * 12 + month) for "YYYY-MM", or now when omitted. */
+  function monthIndex(ym?: string): number {
+    if (!ym) {
+      const now = new Date();
+      return now.getFullYear() * 12 + now.getMonth() + 1;
+    }
+    const [y, m] = parse(ym);
+    return y * 12 + m;
+  }
+
+  /** "2 yrs 7 mos" from a month count. */
+  function formatMonths(total: number): string {
     const yrs = Math.floor(total / 12);
     const mos = total % 12;
     return [
@@ -39,6 +48,22 @@
       .filter(Boolean)
       .join(" ");
   }
+
+  /** LinkedIn-style tenure: inclusive month count. */
+  const tenure = ({ start, end }: Span) =>
+    formatMonths(monthIndex(end) - monthIndex(start) + 1);
+
+  /** Total time across spans, counting overlapping months once. */
+  function total(spans: Span[]): string {
+    const months = new Set<number>();
+    for (const { start, end } of spans) {
+      for (let m = monthIndex(start); m <= monthIndex(end); m++) months.add(m);
+    }
+    return formatMonths(months.size);
+  }
+
+  const range = ({ start, end }: Span) =>
+    `${label(start)} – ${end ? label(end) : "Present"}`;
 
   const work = [
     {
@@ -136,7 +161,8 @@
   const education = [
     {
       degree: "M.S. in Computer Engineering (Machine Learning)",
-      years: "2022 – 2024",
+      start: "2022-08",
+      end: "2024-05",
       courses: [
         "Deep Learning",
         "Reinforcement Learning",
@@ -148,7 +174,8 @@
     },
     {
       degree: "B.S. in Computer Engineering, minor in Computer Science",
-      years: "2018 – 2022",
+      start: "2018-08",
+      end: "2022-05",
       courses: [
         "Machine Learning",
         "Data Analytics & Visualization",
@@ -176,45 +203,46 @@
 />
 
 <section class="layout-md py-12">
-  <h2 class="heading2">Professional Work</h2>
+  <SectionHeading title="Professional Work" total={total(work)} />
   <div class="grid gap-y-4">
     {#each work as w}
       <Entry
         title={w.company}
         href={w.url}
-        meta="{label(w.start)} – {w.end ? label(w.end) : 'Present'}"
+        meta={range(w)}
         subtitle="{w.role}, {w.location}"
-        aside={tenure(w.start, w.end)}
+        aside={tenure(w)}
       />
     {/each}
   </div>
 </section>
 
 <section class="layout-md py-12">
-  <h2 class="heading2">Research and Teaching</h2>
+  <SectionHeading title="Research and Teaching" total={total(research)} />
   <div class="grid gap-y-4">
     {#each research as r}
       <Entry
         title={r.company}
         href={r.url}
-        meta="{label(r.start)} – {r.end ? label(r.end) : 'Present'}"
+        meta={range(r)}
         subtitle="{r.role}, {r.location}"
-        aside={tenure(r.start, r.end)}
+        aside={tenure(r)}
       />
     {/each}
   </div>
 </section>
 
 <section class="layout-md py-12">
-  <h2 class="heading2">Education</h2>
+  <SectionHeading title="Education" total={total(education)} />
   <div class="grid gap-y-6">
     {#each education as e}
       <div>
         <Entry
           title="Virginia Tech"
           href="https://www.vt.edu/"
-          meta={e.years}
+          meta={range(e)}
           subtitle={e.degree}
+          aside={tenure(e)}
         />
         <p class="mt-1 text-sm tracking-wide text-neutral-500 leading-relaxed">
           {e.courses.join(" · ")}
