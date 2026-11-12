@@ -54,9 +54,12 @@
 
   <div class="space-y-5">
     <img
-      class="w-full aspect-[4/3] object-cover object-[50%_75%]"
+      class="w-full aspect-[4/3] object-cover"
       alt="Photograph of Minh Nguyen"
       src="/assets/images/profile.jpg"
+      width="1280"
+      height="960"
+      decoding="async"
     />
   </div>
 </div>

@@ -1,6 +1,7 @@
 <!--
   One resume row, matching the Writing page: title and right-aligned meta on
   the first line, a serif-italic subtitle (and optional aside) on the second.
+  On narrow screens, meta and aside collapse into one line under the subtitle.
 -->
 <script lang="ts">
   import { ArrowUpRight } from "lucide-svelte";
@@ -20,7 +21,7 @@
   target={href ? "_blank" : undefined}
   rel={href ? "noreferrer" : undefined}
 >
-  <div class="flex flex-col sm:flex-row sm:items-end sm:gap-6 mb-1">
+  <div class="flex items-end gap-6 mb-1">
     <div class="text-lg text-black">
       {title}
       {#if href}
@@ -28,15 +29,26 @@
       {/if}
     </div>
     {#if meta}
-      <div class="sm:ml-auto mb-0.5 shrink-0 text-neutral-500">{meta}</div>
+      <div class="hidden sm:block ml-auto mb-0.5 shrink-0 text-neutral-500">
+        {meta}
+      </div>
     {/if}
   </div>
-  <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-6">
+  <div class="flex items-baseline gap-6">
     <div class="text-lg leading-snug font-serif italic">{subtitle}</div>
     {#if aside}
-      <div class="sm:ml-auto shrink-0 text-neutral-400">{aside}</div>
+      <div class="hidden sm:block ml-auto shrink-0 text-neutral-400">
+        {aside}
+      </div>
     {/if}
   </div>
+  {#if meta || aside}
+    <div class="sm:hidden mt-1 flex flex-wrap gap-x-1.5 text-neutral-500">
+      {#if meta}<span>{meta}</span>{/if}
+      {#if meta && aside}<span class="text-neutral-300">·</span>{/if}
+      {#if aside}<span class="text-neutral-400">{aside}</span>{/if}
+    </div>
+  {/if}
 </svelte:element>
 
 <style lang="postcss">

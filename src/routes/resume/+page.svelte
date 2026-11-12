@@ -172,7 +172,7 @@
 
 <Seo
   title="Minh Nguyen – Resume"
-  description="Software engineer, researcher, and builder. Platform Engineering at BlackRock."
+  description="Resume of Minh Nguyen: AI and ML engineering at BlackRock, Tesla, and Homebase, plus ML research in cybersecurity, computer vision, and robotics."
 />
 
 <section class="layout-md py-12">
