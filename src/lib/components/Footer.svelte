@@ -1,17 +1,26 @@
 <script lang="ts">
-  // TODO: replace with your real handles.
   const contacts = [
     {
       label: "GitHub",
-      text: "@YOUR_GITHUB",
-      href: "https://github.com/YOUR_GITHUB",
+      text: "@minhbtnguyen",
+      href: "https://github.com/minhbtnguyen",
+    },
+    {
+      label: "Google Scholar",
+      text: "@minhbtnguyen",
+      href: "https://scholar.google.com/citations?user=9Pg_ZTgAAAAJ&hl=en",
     },
     {
       label: "LinkedIn",
-      text: "in/YOUR_LINKEDIN",
-      href: "https://www.linkedin.com/in/YOUR_LINKEDIN",
+      text: "in/minhbtnguyen",
+      href: "https://www.linkedin.com/in/minhbtnguyen/",
     },
-    { label: "Email", text: "you@example.com", href: "mailto:you@example.com" },
+    { label: "X", text: "@minhbtnguyen", href: "https://x.com/minhbtnguyen" },
+    {
+      label: "Email",
+      text: "minhbtnguyen.work@gmail.com",
+      href: "mailto:minhbtnguyen.work@gmail.com",
+    },
   ];
 </script>
 
@@ -20,7 +29,7 @@
     <div class="row">
       <span>{c.label}</span>
       <hr />
-      <a class="link" href={c.href}>{c.text}</a>
+      <a class="link whitespace-nowrap" href={c.href}>{c.text}</a>
     </div>
   {/each}
 </footer>
@@ -31,7 +40,7 @@
   }
 
   .row span {
-    @apply text-neutral-500;
+    @apply text-neutral-500 whitespace-nowrap;
   }
 
   .row hr {

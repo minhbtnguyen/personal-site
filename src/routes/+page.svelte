@@ -1,22 +1,10 @@
 <script lang="ts">
-  import { ArrowUpRight } from "lucide-svelte";
-
   import Seo from "$lib/components/Seo.svelte";
-
-  // TODO: list your highlighted projects. `href` anchors match file names in src/projects/.
-  const featuredProjects = [
-    {
-      name: "Example Project",
-      href: "/projects#example-project",
-      desc: "one-line description of what it does",
-      aside: "optional metric, e.g. 1K+ stars on GitHub",
-    },
-  ];
 </script>
 
 <Seo
   title="Minh Nguyen"
-  description="Software engineer. TODO: one-sentence description of yourself."
+  description="Software engineer, researcher, and builder. Platform Engineering at BlackRock."
 />
 
 <p
@@ -24,77 +12,58 @@
   id="tagline"
 >
   <span class="g">is a</span> software engineer<span class="g">,</span><br />
-  builder<span class="g">, and</span><br />
-  learner<span class="g">.</span>
+  researcher<span class="g">, and</span><br />
+  builder<span class="g">.</span>
 </p>
 
 <div class="layout-md text-lg space-y-14">
   <div class="space-y-5">
     <p>
-      I work at <a class="link" href="https://example.com">Company</a>.
-      <!-- TODO: current role -->
+      I work on the Platform Engineering team at
+      <a class="link" href="https://www.blackrock.com">BlackRock</a>, where I
+      build production LLM and agentic systems for financial workflows.
     </p>
 
     <p>
-      I care about <em>reliable systems</em> and
-      <em>thoughtful interfaces</em>. TODO: a short paragraph on what drives
-      your work.
+      Previously, I built a real-time predictive maintenance system for factory
+      robots at <a class="link" href="https://www.tesla.com">Tesla</a> and a
+      hybrid recommendation system at
+      <a class="link" href="https://homebase.com.vn/homepage/">Homebase</a> (<a
+        class="link"
+        href="https://www.ycombinator.com/companies/homebase">YC W21</a
+      >). At
+      <a class="link" href="https://shield.ai">Heron Systems</a> (now Shield AI),
+      I worked on NLP research for defense.
     </p>
-  </div>
 
-  <div class="leading-snug space-y-4">
-    <p class="pb-2">Notable work:</p>
-
-    {#each featuredProjects as project}
-      <a class="project-pair" href={project.href}>
-        <div class="text-black font-medium">
-          {project.name}
-          <ArrowUpRight size={18} class="inline text-neutral-400" />
-        </div>
-        <div>
-          <p>{project.desc}</p>
-          {#if project.aside}
-            <aside>{project.aside}</aside>
-          {/if}
-        </div>
-      </a>
-    {/each}
-  </div>
-
-  <div class="space-y-5">
     <p>
-      Previously, I worked at <a class="link" href="https://example.com"
-        >Company A</a
+      I also did
+      <a
+        class="link"
+        href="https://scholar.google.com/citations?user=9Pg_ZTgAAAAJ&hl=en"
+        >ML research</a
       >
-      and <a class="link" href="https://example.com">Company B</a>.
-      <!-- TODO: background, education, notable achievements -->
+      on securing critical infrastructure, including deep learning cyberattack detection
+      for water distribution systems. I hold a B.S. and M.S. in Computer Engineering,
+      focused on machine learning, from
+      <a class="link" href="https://www.vt.edu">Virginia Tech</a>.
     </p>
 
-    <p>Other interests: TODO.</p>
+    <p>Other interests: running, pickleball, meditation, and reading.</p>
   </div>
 
-  <!-- TODO: add a photo at static/assets/images/profile.jpg, then uncomment.
   <div class="space-y-5">
-    <img alt="Photograph of Minh Nguyen" src="/assets/images/profile.jpg" />
+    <img
+      class="w-full aspect-[4/3] object-cover object-[50%_75%]"
+      alt="Photograph of Minh Nguyen"
+      src="/assets/images/profile.jpg"
+    />
   </div>
-  -->
 </div>
 
 <style lang="postcss">
   .g {
     @apply text-neutral-400;
-  }
-
-  em {
-    @apply font-serif text-[110%] leading-[100%];
-  }
-
-  .project-pair {
-    @apply grid sm:grid-cols-[1fr,2fr] gap-y-1 -mx-3 px-3 py-2 hover:bg-neutral-100 transition-colors;
-  }
-
-  aside {
-    @apply mt-0.5 text-base text-neutral-500;
   }
 
   /* Correction for vertical navigation links on mobile. */

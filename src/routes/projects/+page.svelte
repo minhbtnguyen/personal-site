@@ -42,7 +42,7 @@
   let stars: Record<string, number> | null = null;
   onMount(async () => {
     const resp = await fetch(
-      "https://api.github.com/users/YOUR_GITHUB/repos?per_page=100"
+      "https://api.github.com/users/minhbtnguyen/repos?per_page=100"
     );
     const repos = await resp.json();
     stars = {};
@@ -77,7 +77,7 @@
 
   <p class="text-lg">
     If you find something interesting,
-    <a class="link" href="mailto:you@example.com?subject=Projects"
+    <a class="link" href="mailto:minhbtnguyen.work@gmail.com?subject=Projects"
       >let me know</a
     >!
   </p>
