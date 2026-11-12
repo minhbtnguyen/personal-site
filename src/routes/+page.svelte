@@ -43,9 +43,9 @@
         href="https://scholar.google.com/citations?user=9Pg_ZTgAAAAJ&hl=en"
         >ML research</a
       >
-      on securing critical infrastructure, including deep learning cyberattack detection
-      for water distribution systems. I hold a B.S. and M.S. in Computer Engineering,
-      focused on machine learning, from
+      across cybersecurity, computer vision, and robotics, including deep learning
+      cyberattack detection for water distribution systems. I hold a B.S. and M.S.
+      in Computer Engineering, focused on machine learning, from
       <a class="link" href="https://www.vt.edu">Virginia Tech</a>.
     </p>
 

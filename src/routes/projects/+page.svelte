@@ -71,23 +71,6 @@
   description="Open-source projects in machine learning, LLM agents, and data applications."
 />
 
-<section class="layout-md py-12">
-  <h2 class="heading2">Open Source</h2>
-
-  <p class="text-lg mb-4">
-    I view building software in the open as a mode of <em
-      class="font-serif text-[110%] leading-[100%]">creative exploration</em
-    >. Here's the collection of things I've built.
-  </p>
-
-  <p class="text-lg">
-    If you find something interesting,
-    <a class="link" href="mailto:minhbtnguyen.work@gmail.com?subject=Projects"
-      >let me know</a
-    >!
-  </p>
-</section>
-
 {#if showNav}
   <div class="bg-gray-900 text-neutral-200 dark">
     <section class="layout-md py-12">
@@ -122,7 +105,7 @@
 
 <div class="layout-md">
   {#each sortOrder === "date" ? projectsByDate : projectsByStars as id (id)}
-    <section class="py-10 sm:py-14 scroll-mt-8" id={trimName(id)}>
+    <section class="py-10 sm:py-14 first:pt-6 scroll-mt-8" id={trimName(id)}>
       <Project data={projects[id]} {images} {stars} />
     </section>
   {/each}

@@ -7,7 +7,7 @@ lead:
   Rental market analytics, price prediction, and an LLM assistant in one app.
 image: rentalgpt.webp
 award: Winner, Plotly ChatGPT & Generative AI Hackathon
-award_url: https://plotly.com/examples/generative-ai-chatgpt/
+award_url: https://community.plotly.com/t/share-your-app-explore-page-december-2023/80614/23
 ---
 
 Built on Two Sigma's RentHop listing data. Features fuse tabular attributes,
