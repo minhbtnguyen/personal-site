@@ -1,22 +1,27 @@
-# TODO: replace with your own writing. Each section maps to a heading on /writing.
-technology:
-  - title: Example Blog Post
-    date: 2026-01-01
-    summary: >
-      One-sentence summary shown in serif italics under the title.
-    link: https://example.com
-
-notes:
-  - title: Example Notes
-    date: 2025-06-01
-    summary: >
-      Lecture notes or a tutorial. Put PDFs in static/assets/pdf/ and link as
-      /assets/pdf/File.pdf.
-    link: https://example.com
-
+# Papers listed newest first. `year` is optional; omit it if unknown.
 papers:
-  - title: Example Paper
-    date: 2024-12-01
+  - title: PerceptiSync
+    year: 2025
     summary: >
-      Academic paper or course project.
-    link: https://example.com
+      Trustworthy object detection for cyber-physical systems, with crowds in
+      the loop.
+    link: https://doi.org/10.1145/3746644
+
+  - title: Deep H2O
+    year: 2023
+    summary: >
+      Deep learning for detecting cyberattacks on water distribution systems.
+    link: https://doi.org/10.1016/j.jwpe.2023.103568
+
+  - title: AI for Cyberbiosecurity
+    year: 2023
+    summary: >
+      A survey of AI methods for securing water systems.
+    link: https://doi.org/10.1007/978-3-031-26034-6_13
+
+  - title: Time-Series GANs
+    year: 2022
+    summary: >
+      Generative adversarial networks for time-series data in cyber-physical
+      systems.
+    link: "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=9Pg_ZTgAAAAJ&citation_for_view=9Pg_ZTgAAAAJ:_FxGoFyzp5QC"

@@ -5,7 +5,8 @@
 
   type Writing = {
     title: string;
-    date: Date;
+    date?: Date;
+    year?: number;
     summary: string;
     link: string;
   };
@@ -26,9 +27,11 @@
           {item.title}
           <ArrowUpRight size={18} class="inline text-neutral-400" />
         </div>
-        <div class="sm:ml-auto mb-0.5 text-neutral-500">
-          {formatTime("%B %-d, %Y", item.date)}
-        </div>
+        {#if item.date || item.year}
+          <div class="sm:ml-auto sm:pl-6 mb-0.5 text-neutral-500 shrink-0">
+            {item.date ? formatTime("%B %-d, %Y", item.date) : item.year}
+          </div>
+        {/if}
       </div>
       <div class="text-lg leading-snug font-serif italic">
         {item.summary}
